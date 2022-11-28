@@ -1,0 +1,33 @@
+{% extends "base.html" %}
+
+{% block content %}
+    <form method="post" action="/new_item/{{ category }}">
+        <div>
+            {% for attribute in attributes %}
+                <label>{{ attribute }}</label>
+                <input type="text" name="{{ attribute }}">
+            {% endfor %}
+            <button type="submit" onclick="this.form.submit()">Update {{ category }}</button>
+        </div>
+        <div>
+            <table>
+            <thead>
+                <tr>
+                    {% for attribute in attributes %}
+                        <th>{{ attribute }}</th>
+                    {% endfor %}
+                </tr>
+            </thead>
+            <tbody>
+                {% for category_datum in category_data %}
+                    <tr>
+                        {% for data in category_datum %}
+                            <td align="right">{{ category_datum[data] }}</td>
+                        {% endfor %}
+                    </tr>
+                {% endfor %}
+            </tbody>
+            </table>
+        </div>
+    </form>
+{% endblock %}

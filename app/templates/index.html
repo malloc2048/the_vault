@@ -1,0 +1,23 @@
+{% extends "base.html" %}
+
+{% block content %}
+    <script type="text/javascript">
+        function display_category() {
+            let e = document.getElementById("category_select");
+            let text = e.options[e.selectedIndex].value;
+
+            if (text !== "pick") {
+                window.location = window.location.origin + "/category/" + text;
+            }
+        }
+    </script>
+    <form method="post" action="/category">
+        <span class="input-group-addon">Categories</span>
+        <select name="category" id="category_select" onchange="display_category()">
+            <option value="pick">Pick a Category</option>
+            {% for category in categories %}
+                <option value="{{ category.name }}">{{ category.description }}</option>
+            {% endfor %}
+        </select>
+    </form>
+{% endblock %}

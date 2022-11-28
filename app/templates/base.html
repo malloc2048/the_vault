@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    {%  if title %}
+    <title>Trash Panda Hoard: {{ title }}</title>
+    {% else %}
+    <title>Trash Panda Hoard</title>
+    {% endif %}
+</head>
+<body>
+    <div>
+        <h2>Behold, My Stuff</h2>
+    </div>
+    <div>
+        <h3>
+            <a href="/">Home</a>
+            <a href="/category/mb">Motherboards</a>
+            <a href="/category/cpu">Processors</a>
+            <a href="/category/gpu">Graphics Processors</a>
+            <a href="/category/os">Operating Systems</a>
+            <a href="/api">API Docs</a>
+        </h3>
+    </div>
+    <hr>
+    {% block content %}
+
+    {% endblock %}
+</body>
+</html>
