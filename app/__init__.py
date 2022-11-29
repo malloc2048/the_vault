@@ -42,9 +42,9 @@ operating_systems = api.namespace(
     base_path='/api'
 )
 
-app.register_blueprint(blueprint=blueprint)
 from app import routes, models
 from app.api_routes import processor, categories, motherboards, operating_systems
 
+app.register_blueprint(blueprint=blueprint)
 with app.app_context():
     db.create_all()

@@ -1,0 +1,8 @@
+version: '3.8'
+
+services:
+  my_stuff:
+    build: .
+    ports:
+      - "80:8001"
+    image: my_stuff:latest

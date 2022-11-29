@@ -1,0 +1,10 @@
+version: '3.8'
+
+services:
+  my_stuff:
+    build: .
+    ports:
+      - "8001:8001"
+    volumes:
+      - .:/my_stuff
+    image: my_stuff:latest
