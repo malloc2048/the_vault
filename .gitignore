@@ -1,3 +1,4 @@
-/app/app.db
 /venv/
 /.idea/
+/app/my_stuff.sqlit3
+__pycache__/
