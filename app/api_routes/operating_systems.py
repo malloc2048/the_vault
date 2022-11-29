@@ -48,7 +48,6 @@ class Motherboards(Resource):
         for field in fields:
             if args.get(field):
                 data.setdefault(field, args.get(field))
-        print(len(fields) == len(data))
 
         if len(fields) == len(data) and 'id' not in args:
             utils.add_item(data, category='os')
