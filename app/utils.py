@@ -41,6 +41,42 @@ def get_category_data(category: str) -> (list, list):
     return attributes, data
 
 
+def get_category_fields(category: str) -> list:
+    if category == 'mb':
+        attributes = models.Motherboard.field_names()
+
+    elif category == 'cpu':
+        attributes = models.Processor.field_names()
+
+    elif category == 'gpu':
+        attributes = models.GraphicsCard.field_names()
+
+    elif category == 'os':
+        attributes = models.OS.field_names()
+
+    else:
+        return []
+    return attributes
+
+
+def get_required_category_fields(category: str) -> list:
+    if category == 'mb':
+        attributes = models.Motherboard.field_names()
+
+    elif category == 'cpu':
+        attributes = models.Processor.field_names()
+
+    elif category == 'gpu':
+        attributes = models.GraphicsCard.field_names()
+
+    elif category == 'os':
+        attributes = models.OS.required_field_names()
+
+    else:
+        return []
+    return attributes
+
+
 def add_item(data: dict, category: str):
     item = None
     if category == 'mb':
@@ -61,16 +97,16 @@ def update_item(data: dict, category: str):
     # should validate the data before update
     item = None
     if category == 'mb':
-        item = models.Motherboard.query.get_or_404(data.get('ID'))
+        item = models.Motherboard.query.get_or_404(data.get('id'))
 
     elif category == 'cpu':
-        item = models.Processor.query.get_or_404(data.get('ID'))
+        item = models.Processor.query.get_or_404(data.get('id'))
 
     elif category == 'gpu':
-        item = models.GraphicsCard.query.get_or_404(data.get('ID'))
+        item = models.GraphicsCard.query.get_or_404(data.get('id'))
 
     elif category == 'os':
-        item = models.OS.query.get_or_404(data.get('ID'))
+        item = models.OS.query.get_or_404(data.get('id'))
 
     if item:
         item.from_dict(data)
@@ -80,13 +116,17 @@ def update_item(data: dict, category: str):
 
 def delete_item(data: dict, category: str):
     if category == 'mb':
-        result = models.Motherboard.query.filter_by(id=data.get('ID')).all()
+        result = models.Motherboard.query.filter_by(id=data.get('id')).all()
 
     elif category == 'cpu':
-        result = models.Processor.query.filter_by(id=data.get('ID')).all()
+        result = models.Processor.query.filter_by(id=data.get('id')).all()
 
     elif category == 'gpu':
-        result = models.GraphicsCard.query.filter_by(id=data.get('ID')).all()
+        result = models.GraphicsCard.query.filter_by(id=data.get('id')).all()
+
+    elif category == 'os':
+        result = models.OS.query.filter_by(id=data.get('id')).all()
+
     else:
         result = None
 

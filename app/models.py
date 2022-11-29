@@ -1,10 +1,16 @@
+from sqlalchemy import inspect
 from app import db
+
+
+def object_as_dict(obj):
+    return {c.key: getattr(obj, c.key)
+            for c in inspect(obj).mapper.column_attrs}
 
 
 class GraphicsCard(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     make = db.Column(db.String(128), index=True)
-    model = db.Column(db.String(120), index=True, unique=True)
+    model = db.Column(db.String(120), index=True)
     vram = db.Column(db.Integer)
     interface = db.Column(db.String(120))
 
@@ -22,23 +28,19 @@ class GraphicsCard(db.Model):
 
     @staticmethod
     def field_names() -> list:
-        return ['Make', 'Model', 'VRAM', 'Interface']
+        return ['make', 'model', 'vram', 'interface']
 
     @staticmethod
     def display_names() -> list:
         names = GraphicsCard.field_names()
-        names.insert(0, 'ID')
+        names.insert(0, 'id')
         return names
 
     def from_dict(self, data: dict) -> bool:
-        for attribute in self.field_names():
-            if not data.get(attribute):
-                return False
-
-        self.make = data.get('make')
-        self.vram = data.get('vram')
-        self.model = data.get('model')
-        self.interface = data.get('interface')
+        self.make = data.get('make') if data.get('make') else self.make
+        self.model = data.get('model') if data.get('model') else self.model
+        self.socket = data.get('vram') if data.get('vram') else self.socket
+        self.frequency = data.get('interface') if data.get('interface') else self.frequency
 
         return True
 
@@ -46,12 +48,12 @@ class GraphicsCard(db.Model):
 class Processor(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     make = db.Column(db.String(128), index=True)
-    model = db.Column(db.String(128), index=True, unique=True)
+    model = db.Column(db.String(128), index=True)
     frequency = db.Column(db.Integer)
     socket = db.Column(db.String(128))
 
     def __repr__(self):
-        return f'<CPU {self.make} {self.model}>'
+        return f'<CPU {self.make} {self.model} {self.frequency}>'
 
     def to_dict(self) -> dict:
         return {
@@ -64,19 +66,19 @@ class Processor(db.Model):
 
     @staticmethod
     def field_names() -> list:
-        return ['Make', 'Model', 'Frequency', 'Socket']
+        return ['make', 'model', 'frequency', 'socket']
 
     @staticmethod
     def display_names() -> list:
         names = Processor.field_names()
-        names.insert(0, 'ID')
+        names.insert(0, 'id')
         return names
 
     def from_dict(self, data: dict) -> bool:
-        self.make = data.get('Make') if data.get('Make') else self.make
-        self.model = data.get('Model') if data.get('Model') else self.model
-        self.socket = data.get('Socket') if data.get('Socket') else self.socket
-        self.frequency = data.get('Frequency') if data.get('Frequency') else self.frequency
+        self.make = data.get('make') if data.get('make') else self.make
+        self.model = data.get('model') if data.get('model') else self.model
+        self.socket = data.get('socket') if data.get('socket') else self.socket
+        self.frequency = data.get('frequency') if data.get('frequency') else self.frequency
 
         return True
 
@@ -84,7 +86,7 @@ class Processor(db.Model):
 class Motherboard(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     make = db.Column(db.String(128), index=True)
-    model = db.Column(db.String(128), index=True, unique=True)
+    model = db.Column(db.String(128), index=True)
     socket = db.Column(db.String(128))
     status = db.Column(db.String(128))
 
@@ -102,19 +104,19 @@ class Motherboard(db.Model):
 
     @staticmethod
     def field_names() -> list:
-        return ['Make', 'Model', 'Socket', 'Status']
+        return ['make', 'model', 'socket', 'status']
 
     @staticmethod
     def display_names() -> list:
         names = Motherboard.field_names()
-        names.insert(0, 'ID')
+        names.insert(0, 'id')
         return names
 
     def from_dict(self, data: dict) -> bool:
-        self.make = data.get('Make') if data.get('Make') else self.make
-        self.model = data.get('Model') if data.get('Model') else self.model
-        self.socket = data.get('Socket') if data.get('Socket') else self.socket
-        self.status = data.get('Status') if data.get('Status') else self.status
+        self.make = data.get('make') if data.get('make') else self.make
+        self.model = data.get('model') if data.get('model') else self.model
+        self.socket = data.get('socket') if data.get('socket') else self.socket
+        self.status = data.get('status') if data.get('status') else self.status
 
         return True
 
@@ -122,7 +124,7 @@ class Motherboard(db.Model):
 class OS(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     publisher = db.Column(db.String(128), index=True)
-    name = db.Column(db.String(128), index=True, unique=True)
+    name = db.Column(db.String(128), index=True)
     version = db.Column(db.String(128))
     media_type = db.Column(db.String(128))
     product_key = db.Column(db.String(128))
@@ -142,19 +144,23 @@ class OS(db.Model):
 
     @staticmethod
     def field_names() -> list:
-        return ['Publisher', 'Name', 'Version', 'Product Key', 'Media Type']
+        return ['publisher', 'name', 'version', 'product Key', 'media type']
+
+    @staticmethod
+    def required_field_names() -> list:
+        return ['publisher', 'name', 'version']
 
     @staticmethod
     def display_names() -> list:
         names = OS.field_names()
-        names.insert(0, 'ID')
+        names.insert(0, 'id')
         return names
 
     def from_dict(self, data: dict):
-        self.publisher = data.get('Make') if data.get('Make') else self.publisher
-        self.name = data.get('Name') if data.get('Name') else self.name
-        self.version = data.get('Version') if data.get('Version') else self.version
-        self.media_type = data.get('Media Type') if data.get('Media Type') else self.media_type
-        self.product_key = data.get('Product Key') if data.get('Product Key') else self.product_key
+        self.publisher = data.get('publisher') if data.get('publisher') else self.publisher
+        self.name = data.get('name') if data.get('name') else self.name
+        self.version = data.get('version') if data.get('version') else self.version
+        self.media_type = data.get('media type') if data.get('media type') else self.media_type
+        self.product_key = data.get('product Key') if data.get('product Key') else self.product_key
 
         return True
