@@ -2,14 +2,16 @@
 
 {% block content %}
     <form method="post" action="/new_item/{{ category }}">
-        <div>
+        <div class="box">
             {% for attribute in attributes %}
-                <label>{{ attribute }}</label>
+            <div>
+                <label>{{ attribute }}</label><br>
                 <input type="text" name="{{ attribute }}">
+            </div>
             {% endfor %}
             <button type="submit" onclick="this.form.submit()">Update {{ category }}</button>
         </div>
-        <div>
+        <div class="box">
             <table>
             <thead>
                 <tr>

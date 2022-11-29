@@ -17,9 +17,11 @@ def home():
 def category_display(category):
     if request.method == 'GET':
         attributes, data = utils.get_category_data(category)
+        display_name = utils.get_category_display_name(category)
 
         return render_template(
             f'category.html',
+            category_display_name=display_name,
             category=category,
             attributes=attributes,
             category_data=data,

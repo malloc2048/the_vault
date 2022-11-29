@@ -1,0 +1,27 @@
+body {
+  background-color: powderblue;
+}
+
+h2 {
+  color: orange;
+}
+
+table,
+td {
+    border: 1px solid #333;
+    color: #440044;
+    alignment: left;
+    padding-right: 2em;
+}
+
+thead,
+tfoot {
+    background-color: navy;
+    color: #fff;
+}
+
+.box {
+    display: flex;
+    justify-content: space-between;
+    padding-bottom: 2em;
+}

@@ -2,3 +2,4 @@
 /.idea/
 /app/my_stuff.sqlit3
 __pycache__/
+/app/config/my_stuff.sqlit3

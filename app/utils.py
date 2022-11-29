@@ -15,6 +15,19 @@ def categories(details: bool = True) -> list:
         ]
 
 
+def get_category_display_name(category: str) -> str:
+    if category == 'mb':
+        return models.Motherboard.display_name
+    elif category == 'cpu':
+        return models.Processor.display_name
+    elif category == 'gpu':
+        return models.GraphicsCard.display_name
+    elif category == 'os':
+        return models.OS.display_name
+    else:
+        return ''
+
+
 def get_category_data(category: str) -> (list, list):
     if category == 'mb':
         db_data = models.Motherboard.query.all()
