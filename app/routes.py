@@ -14,7 +14,7 @@ def home():
     )
 
 
-@app.route('/category/<category>', methods=['GET', 'POST'])
+@app.route('/category/<category>', methods=['GET'])
 def category_display(category):
     if request.method == 'GET':
         attributes, data = utils.get_category_data(category)
@@ -29,26 +29,25 @@ def category_display(category):
             categories=utils.categories(),
         )
 
-    elif request.method == 'POST':
-        print('ever here?')
-
 
 @app.route('/new_item/<category>', methods=['POST'])
 def new_category_item(category):
     try:
         data = request.form.to_dict()
 
-        if data.get('ID'):
+        if data.get('id'):
             update = False
 
-            # if any other field is populated other than ID, then update the entry, otherwise we are gonna delete
+            # if any other field is populated other than ID, then update the entry, otherwise we are going to delete
             for x in data:
-                if x != 'ID' and data.get(x):
+                if x != 'id' and data.get(x):
                     update = True
 
             if update:
+                print('update')
                 utils.update_item(data, category)
             else:
+                print('delete')
                 utils.delete_item(data, category)
 
         else:

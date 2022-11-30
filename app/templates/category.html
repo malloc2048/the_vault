@@ -9,7 +9,7 @@
                         {% for attribute in attributes %}
                             <label >{{ attribute }}</label>
 <!--                        <input type="text" name="{{ attribute }}" id="{{ attribute }}">-->
-                            <input type="text" class="form-control" id="{{ attribute }}" placeholder="{{category}} {{ attribute }}">
+                            <input type="text" class="form-control" name="{{ attribute }}" id="{{ attribute }}" placeholder="{{category}} {{ attribute }}">
                         {% endfor %}
                     </div>
                     <button type="submit" onclick="this.form.submit()">Update {{ category }}</button>
