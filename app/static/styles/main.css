@@ -6,18 +6,24 @@ h2 {
   color: orange;
 }
 
-table,
+table {
+    border: 1px solid #333;
+    /*color: #440044;*/
+}
+
 td {
     border: 1px solid #333;
     color: #440044;
-    alignment: left;
-    padding-right: 2em;
+    alignment: center;
+    /*padding-right: 2em;*/
 }
 
-thead,
-tfoot {
-    background-color: navy;
-    color: #fff;
+th {
+    /*background-color: navy;*/
+    color: orangered;
+    /*border: 1px solid #333;*/
+    alignment: right;
+    /*padding-right: 2em;*/
 }
 
 .box {
