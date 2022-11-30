@@ -69,6 +69,6 @@ class Motherboards(Resource):
 class MotherboardsById(Resource):
     @api.response(200, 'return details of a specific OS record')
     def get(self, id):
-        from app.models import Processor, object_as_dict
-        results = Processor.query.get(id)
+        from app.models import OS, object_as_dict
+        results = OS.query.get(id)
         return {'os': object_as_dict(results)}

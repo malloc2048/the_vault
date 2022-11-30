@@ -1,6 +1,7 @@
 from sqlalchemy import inspect
 
 from .os import OS
+from .dvd import DVD
 from .cpu import Processor
 from .mb import Motherboard
 from .gpu import GraphicsCard

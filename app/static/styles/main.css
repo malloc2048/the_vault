@@ -25,3 +25,8 @@ tfoot {
     justify-content: space-between;
     padding-bottom: 2em;
 }
+
+a {
+    /*color: orange;*/
+    padding-right: 2em;
+}

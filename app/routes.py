@@ -25,6 +25,7 @@ def category_display(category):
             category=category,
             attributes=attributes,
             category_data=data,
+            categories=utils.categories(),
         )
 
     elif request.method == 'POST':

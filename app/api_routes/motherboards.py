@@ -69,7 +69,7 @@ class Motherboards(Resource):
 class MotherboardsById(Resource):
     @api.response(200, 'return details of a specific mb')
     def get(self, id):
-        from app.models import Processor, object_as_dict
-        results = Processor.query.get(id)
+        from app.models import Motherboard, object_as_dict
+        results = Motherboard.query.get(id)
         return {'mb': object_as_dict(results)}
 

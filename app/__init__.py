@@ -42,8 +42,16 @@ operating_systems = api.namespace(
     base_path='/api'
 )
 
+dvds = api.namespace(
+    'movies',
+    description='Some Movies',
+    authorizations=Config.authorizations,
+    security='api_token',
+    base_path='/api'
+)
+
 from app import routes, models
-from app.api_routes import processor, categories, motherboards, operating_systems
+from app.api_routes import processor, categories, motherboards, operating_systems, dvds
 
 app.register_blueprint(blueprint=blueprint)
 with app.app_context():

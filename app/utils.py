@@ -7,11 +7,12 @@ def categories(details: bool = True) -> list:
             {'name': 'mb', 'description': 'Motherboard'},
             {'name': 'gpu', 'description': 'Graphics Card'},
             {'name': 'cpu', 'description': 'Processor'},
-            {'name': 'os', 'description': 'Operating Systems'}
+            {'name': 'os', 'description': 'Operating Systems'},
+            {'name': 'dvd', 'description': 'DVDs'}
         ]
     else:
         return [
-            'mb', 'cpu', 'gpu', 'os'
+            'mb', 'cpu', 'gpu', 'os', 'dvd'
         ]
 
 
@@ -24,6 +25,8 @@ def get_category_display_name(category: str) -> str:
         return models.GraphicsCard.display_name
     elif category == 'os':
         return models.OS.display_name
+    elif category == 'dvd':
+        return models.DVD.display_name
     else:
         return ''
 
@@ -44,6 +47,10 @@ def get_category_data(category: str) -> (list, list):
     elif category == 'os':
         db_data = models.OS.query.all()
         attributes = models.OS.display_names()
+
+    elif category == 'dvd':
+        db_data = models.DVD.query.all()
+        attributes = models.DVD.display_names()
 
     else:
         return [], []
@@ -67,6 +74,9 @@ def get_category_fields(category: str) -> list:
     elif category == 'os':
         attributes = models.OS.field_names()
 
+    elif category == 'dvd':
+        attributes = models.DVD.field_names()
+
     else:
         return []
     return attributes
@@ -85,6 +95,9 @@ def get_required_category_fields(category: str) -> list:
     elif category == 'os':
         attributes = models.OS.required_field_names()
 
+    elif category == 'dvd':
+        attributes = models.DVD.required_field_names()
+
     else:
         return []
     return attributes
@@ -100,6 +113,8 @@ def add_item(data: dict, category: str):
         item = models.GraphicsCard()
     elif category == 'os':
         item = models.OS()
+    elif category == 'dvd':
+        item = models.DVD()
 
     if item.from_dict(data):
         db.session.add(item)
@@ -121,6 +136,9 @@ def update_item(data: dict, category: str):
     elif category == 'os':
         item = models.OS.query.get_or_404(data.get('id'))
 
+    elif category == 'dvd':
+        item = models.DVD.query.get_or_404(data.get('id'))
+
     if item:
         item.from_dict(data)
         db.session.add(item)
@@ -139,6 +157,9 @@ def delete_item(data: dict, category: str):
 
     elif category == 'os':
         result = models.OS.query.filter_by(id=data.get('id')).all()
+
+    elif category == 'dvd':
+        result = models.DVD.query.filter_by(id=data.get('id')).all()
 
     else:
         result = None
