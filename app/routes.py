@@ -10,6 +10,7 @@ def home():
         title='Home',
         categories=utils.categories(),
         category_data=[],
+        category=''
     )
 
 

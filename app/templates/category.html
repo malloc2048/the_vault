@@ -1,35 +1,65 @@
 {% extends "base.html" %}
 
 {% block content %}
-    <form method="post" action="/new_item/{{ category }}">
-        <div class="box">
-            {% for attribute in attributes %}
-            <div>
-                <label>{{ attribute }}</label><br>
-                <input type="text" name="{{ attribute }}">
-            </div>
-            {% endfor %}
-            <button type="submit" onclick="this.form.submit()">Update {{ category }}</button>
-        </div>
-        <div class="box">
-            <table>
-            <thead>
-                <tr>
-                    {% for attribute in attributes %}
-                        <th>{{ attribute }}</th>
-                    {% endfor %}
-                </tr>
-            </thead>
-            <tbody>
-                {% for category_datum in category_data %}
-                    <tr>
-                        {% for data in category_datum %}
-                            <td align="right">{{ category_datum[data] }}</td>
+    <div class="container">
+        <div class="row">
+            <div class="col-sm-4">
+                <form class="form-horizontal-pf-align-left" role="form" method="post" action="/new_item/{{ category }}">
+                    <div class="form-group">
+                        {% for attribute in attributes %}
+                            <label >{{ attribute }}</label>
+<!--                        <input type="text" name="{{ attribute }}" id="{{ attribute }}">-->
+                            <input type="text" class="form-control" id="{{ attribute }}" placeholder="{{category}} {{ attribute }}">
                         {% endfor %}
-                    </tr>
-                {% endfor %}
-            </tbody>
-            </table>
+                    </div>
+                    <button type="submit" onclick="this.form.submit()">Update {{ category }}</button>
+                </form>
+            </div>
+            <div class="col-sm-4">
+                <table class="table table-hover">
+                    <thead>
+                        <tr>
+                            {% for attribute in attributes %}
+                                <th>{{ attribute }}</th>
+                            {% endfor %}
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for category_datum in category_data %}
+                            <tr>
+                            {% for data in category_datum %}
+                                <td>{{ category_datum[data] }}</td>
+                            {% endfor %}
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
         </div>
-    </form>
+<!--        <form method="post" action="/new_item/{{ category }}">-->
+<!--            <div class="box">-->
+
+<!--            </div>-->
+<!--            <div class="box">-->
+<!--                <table>-->
+<!--                <thead>-->
+<!--                    <tr>-->
+<!--                        {% for attribute in attributes %}-->
+<!--                            <th>{{ attribute }}</th>-->
+<!--                        {% endfor %}-->
+<!--                    </tr>-->
+<!--                </thead>-->
+<!--                <tbody>-->
+<!--                    {% for category_datum in category_data %}-->
+<!--                        <tr>-->
+<!--                            {% for data in category_datum %}-->
+<!--                                <td align="right">{{ category_datum[data] }}</td>-->
+<!--                            {% endfor %}-->
+<!--                        </tr>-->
+<!--                    {% endfor %}-->
+<!--                </tbody>-->
+<!--                </table>-->
+<!--            </div>-->
+<!--        </form>-->
+    </div>
 {% endblock %}
