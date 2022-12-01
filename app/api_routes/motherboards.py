@@ -29,7 +29,7 @@ class MotherboardsById(Resource):
     @api.response(200, 'return details of a specific motherboard')
     def get(self, record_id):
         results = Motherboard.query.get(record_id)
-        return {'mbs': object_as_dict(results)}
+        return {'motherboard': object_as_dict(results)}
 
     @api.doc(params=Motherboard.mutation_fields)
     @api.response(200, 'updated motherboard record')
@@ -40,9 +40,9 @@ class MotherboardsById(Resource):
         if len(args) >= 1:
             args.setdefault('id', record_id)
             update_item(args, category='mb', db=db)
-            return {'mbs': object_as_dict(Motherboard.query.get(record_id))}
+            return {'motherboard': object_as_dict(Motherboard.query.get(record_id))}
 
     @api.response(200, 'return deleted motherboard record')
     def delete(self, record_id):
         if record_id:
-            return {'movie': object_as_dict(delete_item({'id': record_id}, 'mb', db=db))}
+            return {'motherboard': object_as_dict(delete_item({'id': record_id}, 'mb', db=db))}

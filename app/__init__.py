@@ -50,6 +50,14 @@ operating_systems = api.namespace(
     base_path='/api'
 )
 
+games = api.namespace(
+    'games',
+    description='The games',
+    authorizations=Config.authorizations,
+    security='api_token',
+    base_path='/api'
+)
+
 movies = api.namespace(
     'movies',
     description='Some Movies',

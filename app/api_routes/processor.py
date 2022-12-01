@@ -29,7 +29,7 @@ class ProcessorsByID(Resource):
     @api.response(200, 'return details of a specific cpu')
     def get(self, record_id):
         results = Processor.query.get(record_id)
-        return {'cpus': object_as_dict(results)}
+        return {'cpu': object_as_dict(results)}
 
     @api.doc(params=Processor.mutation_fields)
     @api.response(200, 'updated cpu record')
@@ -40,9 +40,9 @@ class ProcessorsByID(Resource):
         if len(args) >= 1:
             args.setdefault('id', record_id)
             update_item(args, category='cpu', db=db)
-            return {'cpus': object_as_dict(Processor.query.get(record_id))}
+            return {'cpu': object_as_dict(Processor.query.get(record_id))}
 
     @api.response(200, 'return deleted cpu record')
     def delete(self, record_id):
         if record_id:
-            return {'movie': object_as_dict(delete_item({'id': record_id}, 'cpu', db=db))}
+            return {'cpu': object_as_dict(delete_item({'id': record_id}, 'cpu', db=db))}

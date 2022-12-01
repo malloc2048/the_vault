@@ -29,7 +29,7 @@ class ProcessorsByID(Resource):
     @api.response(200, 'return details of a specific gpu')
     def get(self, record_id):
         results = GraphicsCard.query.get(record_id)
-        return {'gpus': object_as_dict(results)}
+        return {'gpu': object_as_dict(results)}
 
     @api.doc(params=GraphicsCard.mutation_fields)
     @api.response(200, 'updated gpu record')
@@ -40,10 +40,10 @@ class ProcessorsByID(Resource):
         if len(args) >= 1:
             args.setdefault('id', record_id)
             update_item(args, category='gpu', db=db)
-            return {'gpus': object_as_dict(GraphicsCard.query.get(record_id))}
+            return {'gpu': object_as_dict(GraphicsCard.query.get(record_id))}
 
     @api.response(200, 'return deleted gpu record')
     def delete(self, record_id):
         if record_id:
-            return {'movie': object_as_dict(delete_item({'id': record_id}, 'gpu', db=db))}
+            return {'gpu': object_as_dict(delete_item({'id': record_id}, 'gpu', db=db))}
 
