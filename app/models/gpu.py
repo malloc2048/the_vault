@@ -13,6 +13,25 @@ class GraphicsCard(db.Model):
     interface = db.Column(db.String(8))
 
     display_name = 'GPUs'
+    group = 'hardware'
+
+    query_fields = {
+        'manufacturer': 'Who made the card',
+        'gpu_manufacturer': 'Who made the chip',
+        'gpu_series': 'Geforce|Radeon',
+        'vram': 'how much memory',
+        'interface': 'How does it plug in'
+    }
+
+    mutation_fields = {
+        'manufacturer': 'Who made the card',
+        'model': 'card model',
+        'gpu_manufacturer': 'Who made the chip',
+        'gpu_series': 'Geforce|Radeon',
+        'gpu_model': 'specific GPU chip model',
+        'vram': 'how much memory',
+        'interface': 'How does it plug in'
+    }
 
     def __repr__(self):
         return f'<GPU {self.manufacturer} {self.model}>'

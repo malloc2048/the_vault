@@ -9,6 +9,19 @@ class Motherboard(db.Model):
     status = db.Column(db.String(128))
 
     display_name = 'Motherboards'
+    group = 'hardware'
+
+    query_fields = {
+        'make': 'who made the board',
+        'socket': 'what can plug into it',
+    }
+
+    mutation_fields = {
+        'make': 'who made the board',
+        'model': 'specific board',
+        'socket': 'what can plug into it',
+        'status': 'does it work',
+    }
 
     def __repr__(self):
         return f'<Motherboard {self.make} {self.model}>'

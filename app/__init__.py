@@ -26,6 +26,14 @@ processors = api.namespace(
     base_path='/api'
 )
 
+gpus = api.namespace(
+    'gpus',
+    description='The GPUs I gots',
+    authorizations=Config.authorizations,
+    security='api_token',
+    base_path='/api'
+)
+
 motherboards = api.namespace(
     'motherboards',
     description='The motherboards I gots',
@@ -51,7 +59,7 @@ movies = api.namespace(
 )
 
 from app import routes, models
-from app.api_routes import processor, categories, motherboards, operating_systems, movies
+from app.api_routes import processor, categories, motherboards, operating_systems, movies, gpu
 
 app.register_blueprint(blueprint=blueprint)
 with app.app_context():

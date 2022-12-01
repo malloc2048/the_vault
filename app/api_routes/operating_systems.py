@@ -1,75 +1,48 @@
 from flask import request
 from flask_restx import Resource
-from app import api, operating_systems
 from app.utils import object_as_dict
-from app.models import get_category_data, get_category_fields, add_item, update_item, delete_item, OS
+from app.api_routes import category_get
+from app import api, operating_systems, db
+from app.models import add_item, update_item, delete_item, OS
 
 
 @operating_systems.route('/')
 class Motherboards(Resource):
-    @api.doc(params={
-        'publisher': 'who made the OS',
-        'name': 'the specific OS',
-        'version': 'The version'
-    })
-    @api.response(200, 'returns a list of all available OSes')
+    @api.doc(params=OS.query_fields)
+    @api.response(200, 'returns a list of operating systems')
     def get(self):
-        args = request.args
+        args = request.args.to_dict()
+        return category_get(args, 'os')
 
-        filter_data = dict()
-        if args.get('publisher'):
-            filter_data.setdefault('publisher', args.get('publisher'))
-        if args.get('name'):
-            filter_data.setdefault('name', args.get('name'))
-        if args.get('version'):
-            filter_data.setdefault('version', args.get('version'))
-
-        all_os_data = get_category_data('os')[1]
-        if not filter_data:
-            return {'os': all_os_data}
-        else:
-            # TODO: there is an opportunity to pull this out to a function same for all so far
-            filtered_data = list()
-            for os in all_os_data:
-                shared_items = {k: filter_data[k] for k in filter_data if k in os and filter_data[k] == os[k]}
-                if len(shared_items) == len(filter_data):
-                    filtered_data.append(os)
-            return {'os': filtered_data}
-
-    @api.doc(params={
-        'id': 'if provided the record will be updated',
-        'publisher': 'who made the motherboard',
-        'name': 'the specific motherboard',
-        'version': 'does it work or not',
-    })
+    @api.doc(params=OS.mutation_fields)
     def post(self):
-        fields = get_required_category_fields('os')
-        args = request.args
+        # fields = get_category_fields('dvd')
+        args = request.args.to_dict()
 
-        data = dict()
-        for field in fields:
-            if args.get(field):
-                data.setdefault(field, args.get(field))
-
-        if len(fields) == len(data) and 'id' not in args:
-            add_item(data, category='os')
-        elif 'id' in args:
-            data.setdefault('id', args.get('id'))
-            update_item(data, category='os')
-
-    @api.doc(params={
-        'id': 'database id to delete'
-    })
-    def delete(self):
-        id_arg = request.args.get('id')
-
-        if id_arg:
-            delete_item({'id': id_arg}, 'os')
+        # validate title at least is provided
+        if OS.validate(args):
+            return object_as_dict(add_item(data=args, category='os', db=db))
 
 
 @operating_systems.route('/<id>')
 class MotherboardsById(Resource):
-    @api.response(200, 'return details of a specific OS record')
-    def get(self, id):
-        results = OS.query.get(id)
-        return {'os': object_as_dict(results)}
+    @api.response(200, 'return details of a specific operating system')
+    def get(self, record_id):
+        results = OS.query.get(record_id)
+        return {'oss': object_as_dict(results)}
+
+    @api.doc(params=OS.mutation_fields)
+    @api.response(200, 'updated operating system record')
+    def post(self, record_id):
+        args = request.args.to_dict()
+
+        # update the record if 'id' is provided with at least one additional arg
+        if len(args) >= 1:
+            args.setdefault('id', record_id)
+            update_item(args, category='os', db=db)
+            return {'oss': object_as_dict(OS.query.get(record_id))}
+
+    @api.response(200, 'return deleted operating system record')
+    def delete(self, record_id):
+        if record_id:
+            return {'movie': object_as_dict(delete_item({'id': record_id}, 'os', db=db))}

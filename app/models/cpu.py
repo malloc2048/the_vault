@@ -9,6 +9,21 @@ class Processor(db.Model):
     socket = db.Column(db.String(128))
 
     display_name = 'CPUs'
+    group = 'hardware'
+
+    query_fields = {
+        'make': 'Who made the cpu',
+        'model': 'cpu model',
+        'frequency': 'how fast is it',
+        'socket': 'what does it plug into',
+    }
+
+    mutation_fields = {
+        'make': 'Who made the cpu',
+        'model': 'cpu model',
+        'frequency': 'how fast is it',
+        'socket': 'what does it plug into',
+    }
 
     def __repr__(self):
         return f'<CPU {self.make} {self.model} {self.frequency}>'

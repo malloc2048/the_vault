@@ -9,6 +9,20 @@ class Game(db.Model):
     publisher = db.Column(db.String(128), index=True)
 
     display_name = 'Games'
+    group = 'software'
+
+    query_fields = {
+        'release': 'what year was it released',
+        'platform': 'what hardware does it run on',
+        'publisher': 'who made it',
+    }
+
+    mutation_fields = {
+        'title': 'what is it called',
+        'release': 'what year was it released',
+        'platform': 'what hardware does it run on',
+        'publisher': 'who made it',
+    }
 
     def __repr__(self):
         return f'<Game {self.title} {self.platform}>'

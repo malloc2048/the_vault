@@ -23,7 +23,8 @@ def category_details(details: bool = True) -> list:
         for category in categories:
             cat_details.append({
                 'name': category,
-                'description': categories.get(category)().display_name
+                'description': categories.get(category)().display_name,
+                'group': categories.get(category)().group
             })
         return cat_details
     else:
