@@ -1,6 +1,6 @@
 from flask import request
 from flask_restx import Resource
-from app import api, categories, utils, processors, models
+from app import api, categories, processors, models
 
 
 # these routes ar relative to the base url (/api) and the namespace url (/categories)
@@ -12,6 +12,4 @@ class Categories(Resource):
     def get(self):
         args = request.args
         show_details = bool(args.get('details'))
-        return {'categories': utils.categories(show_details)}
-
-
+        return {'categories': models.category_details(show_details)}

@@ -13,24 +13,9 @@ class Processor(db.Model):
     def __repr__(self):
         return f'<CPU {self.make} {self.model} {self.frequency}>'
 
-    def to_dict(self) -> dict:
-        return {
-            'id': self.id,
-            'make': self.make,
-            'model': self.model,
-            'frequency': self.frequency,
-            'socket': self.socket
-        }
-
     @staticmethod
     def field_names() -> list:
         return ['make', 'model', 'frequency', 'socket']
-
-    @staticmethod
-    def display_names() -> list:
-        names = Processor.field_names()
-        names.insert(0, 'id')
-        return names
 
     def from_dict(self, data: dict) -> bool:
         self.make = data.get('make') if data.get('make') else self.make

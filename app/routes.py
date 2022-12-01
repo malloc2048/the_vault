@@ -1,14 +1,15 @@
 from flask import render_template, request, redirect
-from app import app, utils
+from app import app, models, db
 
 
 @app.route('/')
 @app.route('/index')
 def home():
+    print(models.category_details())
     return render_template(
         'index.html',
         title='Home',
-        categories=utils.categories(),
+        categories=models.category_details(),
         category_data=[],
         category=''
     )
@@ -17,16 +18,15 @@ def home():
 @app.route('/category/<category>', methods=['GET'])
 def category_display(category):
     if request.method == 'GET':
-        attributes, data = utils.get_category_data(category)
-        display_name = utils.get_category_display_name(category)
+        attributes, data = models.get_category_data(category)
 
         return render_template(
             f'category.html',
-            category_display_name=display_name,
+            category_display_name=models.get_category_display_name(category),
             category=category,
             attributes=attributes,
             category_data=data,
-            categories=utils.categories(),
+            categories=models.category_details(),
         )
 
 
@@ -45,13 +45,13 @@ def new_category_item(category):
 
             if update:
                 print('update')
-                utils.update_item(data, category)
+                models.update_item(data, category, db)
             else:
                 print('delete')
-                utils.delete_item(data, category)
+                models.delete_item(data, category, db)
 
         else:
-            utils.add_item(data, category)
+            models.add_item(data, category, db)
 
     except KeyError:
         pass

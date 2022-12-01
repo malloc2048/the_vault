@@ -14,16 +14,6 @@ class OS(db.Model):
     def __repr__(self):
         return f'<OS {self.publisher} {self.name}>'
 
-    def to_dict(self) -> dict:
-        return {
-            'id': self.id,
-            'publisher': self.publisher,
-            'name': self.name,
-            'version': self.version,
-            'key': self.product_key,
-            'media_type': self.media_type
-        }
-
     @staticmethod
     def field_names() -> list:
         return ['publisher', 'name', 'version', 'product key', 'media']
@@ -31,12 +21,6 @@ class OS(db.Model):
     @staticmethod
     def required_field_names() -> list:
         return ['publisher', 'name', 'version']
-
-    @staticmethod
-    def display_names() -> list:
-        names = OS.field_names()
-        names.insert(0, 'id')
-        return names
 
     def from_dict(self, data: dict):
         self.publisher = data.get('publisher') if data.get('publisher') else self.publisher

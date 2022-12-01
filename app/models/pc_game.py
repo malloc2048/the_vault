@@ -1,18 +1,17 @@
 from app import db
-from app.utils import object_as_dict
 
 
-class DVD(db.Model):
+class PCGame(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     title = db.Column(db.String(128), index=True)
     format = db.Column(db.String(128), index=True)
     director = db.Column(db.String(128), index=True)
     release = db.Column(db.String(128), index=True)
 
-    display_name = 'Movies'
+    display_name = 'PC Games'
 
     def __repr__(self):
-        return f'<DVD {self.title}>'
+        return f'<PC Game {self.title}>'
 
     @staticmethod
     def field_names() -> list:

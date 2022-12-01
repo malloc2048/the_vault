@@ -1,6 +1,8 @@
 from flask import request
 from flask_restx import Resource
-from app import api, utils, operating_systems
+from app import api, operating_systems
+from app.utils import object_as_dict
+from app.models import get_category_data, get_category_fields, add_item, update_item, delete_item, OS
 
 
 @operating_systems.route('/')
@@ -22,7 +24,7 @@ class Motherboards(Resource):
         if args.get('version'):
             filter_data.setdefault('version', args.get('version'))
 
-        all_os_data = utils.get_category_data('os')[1]
+        all_os_data = get_category_data('os')[1]
         if not filter_data:
             return {'os': all_os_data}
         else:
@@ -41,7 +43,7 @@ class Motherboards(Resource):
         'version': 'does it work or not',
     })
     def post(self):
-        fields = utils.get_required_category_fields('os')
+        fields = get_required_category_fields('os')
         args = request.args
 
         data = dict()
@@ -50,10 +52,10 @@ class Motherboards(Resource):
                 data.setdefault(field, args.get(field))
 
         if len(fields) == len(data) and 'id' not in args:
-            utils.add_item(data, category='os')
+            add_item(data, category='os')
         elif 'id' in args:
             data.setdefault('id', args.get('id'))
-            utils.update_item(data, category='os')
+            update_item(data, category='os')
 
     @api.doc(params={
         'id': 'database id to delete'
@@ -62,13 +64,12 @@ class Motherboards(Resource):
         id_arg = request.args.get('id')
 
         if id_arg:
-            utils.delete_item({'id': id_arg}, 'os')
+            delete_item({'id': id_arg}, 'os')
 
 
 @operating_systems.route('/<id>')
 class MotherboardsById(Resource):
     @api.response(200, 'return details of a specific OS record')
     def get(self, id):
-        from app.models import OS, object_as_dict
         results = OS.query.get(id)
         return {'os': object_as_dict(results)}

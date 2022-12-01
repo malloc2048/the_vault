@@ -13,24 +13,9 @@ class GraphicsCard(db.Model):
     def __repr__(self):
         return f'<GPU {self.make} {self.model}>'
 
-    def to_dict(self) -> dict:
-        return {
-            'id': self.id,
-            'make': self.make,
-            'model': self.model,
-            'vram': self.vram,
-            'interface': self.interface
-        }
-
     @staticmethod
     def field_names() -> list:
         return ['make', 'model', 'vram', 'interface']
-
-    @staticmethod
-    def display_names() -> list:
-        names = GraphicsCard.field_names()
-        names.insert(0, 'id')
-        return names
 
     def from_dict(self, data: dict) -> bool:
         self.make = data.get('make') if data.get('make') else self.make

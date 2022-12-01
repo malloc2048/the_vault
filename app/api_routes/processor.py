@@ -1,6 +1,8 @@
 from flask import request
+from app import api, processors
 from flask_restx import Resource
-from app import api, utils, processors
+from app.utils import object_as_dict
+from app.models import get_category_data, get_category_fields, add_item, update_item, delete_item, Processor
 
 
 @processors.route('/')
@@ -25,7 +27,7 @@ class Processors(Resource):
         if args.get('frequency'):
             filter_data.setdefault('frequency', int(args.get('frequency')))
 
-        all_cpu_data = utils.get_category_data('cpu')[1]
+        all_cpu_data = get_category_data('cpu')[1]
         if not filter_data:
             return {'cpus': all_cpu_data}
         else:
@@ -44,7 +46,7 @@ class Processors(Resource):
         'socket': 'how do you plug it in'
     })
     def post(self):
-        fields = utils.get_category_fields('cpu')
+        fields = get_category_fields('cpu')
         args = request.args
 
         data = dict()
@@ -53,10 +55,10 @@ class Processors(Resource):
                 data.setdefault(field, args.get(field))
 
         if len(fields) == len(data) and 'id' not in args:
-            utils.add_item(data, category='cpu')
+            add_item(data, category='cpu')
         elif 'id' in args:
             data.setdefault('id', args.get('id'))
-            utils.update_item(data, category='cpu')
+            update_item(data, category='cpu')
 
     @api.doc(params={
         'id': 'database id to delete'
@@ -65,14 +67,13 @@ class Processors(Resource):
         id_arg = request.args.get('id')
 
         if id_arg:
-            utils.delete_item({'id': id_arg}, 'cpu')
+            delete_item({'id': id_arg}, 'cpu')
 
 
 @processors.route('/<id>')
 class ProcessorsByID(Resource):
     @api.response(200, 'return details of a specific CPU')
     def get(self, id):
-        from app.models import Processor, object_as_dict
         results = Processor.query.get(id)
         return {'cpus': object_as_dict(results)}
 

@@ -1,14 +1,16 @@
 from flask import request
+from app import api, dvds, db
 from flask_restx import Resource
-from app import api, utils, dvds
+from app.utils import object_as_dict
+from app.models import get_category_data, get_category_fields, add_item, update_item, delete_item, DVD
 
 
 @dvds.route('/')
 class Dvds(Resource):
     @api.doc(params={
-        'title': 'who made the CPU',
-        'director': 'the specific CPU',
-        'release_date': 'how fast does it cpu',
+        'format': 'media type',
+        'director': 'who made it',
+        'release': 'when was it made',
     })
     @api.response(200, 'returns a list of all available processors')
     def get(self):
@@ -22,7 +24,7 @@ class Dvds(Resource):
         if args.get('release_date'):
             filter_data.setdefault('release_date', args.get('release_date'))
 
-        all_data = utils.get_category_data('dvd')[1]
+        all_data = get_category_data('dvd')[1]
         if not filter_data:
             return {'dvds': all_data}
         else:
@@ -34,40 +36,43 @@ class Dvds(Resource):
             return {'dvds': filtered_data}
 
     @api.doc(params={
-        'id': 'if provided the record will be updated',
-        'title': 'who made the CPU',
-        'director': 'the specific CPU',
-        'release_date': 'how fast does it cpu',
+        'title': 'what did they call it',
+        'director': 'who made the movie',
+        'format': 'how is it packaged',
+        'release': 'when did they release it',
     })
     def post(self):
-        fields = utils.get_category_fields('dvd')
-        args = request.args
+        # fields = get_category_fields('dvd')
+        args = request.args.to_dict()
 
-        data = dict()
-        for field in fields:
-            if args.get(field):
-                data.setdefault(field, args.get(field))
+        # validate title at least is provided
+        if args.get('title'):
+            return object_as_dict(add_item(data=args, category='dvd', db=db))
 
-        if len(fields) == len(data) and 'id' not in args:
-            utils.add_item(data, category='dvd')
-        elif 'id' in args:
-            data.setdefault('id', args.get('id'))
-            utils.update_item(data, category='dvd')
+
+@dvds.route('/<record_id>')
+class MovieByID(Resource):
+    @api.response(200, 'return details of a specific DVD')
+    def get(self, record_id):
+        results = DVD.query.get(record_id)
+        return {'movie': object_as_dict(results)}
 
     @api.doc(params={
-        'id': 'database id to delete'
+        'title': 'what did they call it',
+        'director': 'who made the movie',
+        'format': 'how is it packaged',
+        'release': 'when did they release it',
     })
-    def delete(self):
-        id_arg = request.args.get('id')
+    def post(self, record_id):
+        args = request.args.to_dict()
 
-        if id_arg:
-            utils.delete_item({'id': id_arg}, 'dvd')
+        # update the record if 'id' is provided with at least one additional arg
+        if len(args) >= 1:
+            args.setdefault('id', record_id)
+            update_item(args, category='dvd', db=db)
+            return {'movie': object_as_dict(DVD.query.get(record_id))}
 
-
-@dvds.route('/<id>')
-class ProcessorsByID(Resource):
     @api.response(200, 'return details of a specific DVD')
-    def get(self, id):
-        from app.models import DVD, object_as_dict
-        results = DVD.query.get(id)
-        return {'dvds': object_as_dict(results)}
+    def delete(self, record_id):
+        if record_id:
+            return {'movie': object_as_dict(delete_item({'id': record_id}, 'dvd', db=db))}

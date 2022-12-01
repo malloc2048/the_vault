@@ -13,24 +13,9 @@ class Motherboard(db.Model):
     def __repr__(self):
         return f'<Motherboard {self.make} {self.model}>'
 
-    def to_dict(self) -> dict:
-        return {
-            'id': self.id,
-            'make': self.make,
-            'model': self.model,
-            'socket': self.socket,
-            'status': self.status
-        }
-
     @staticmethod
     def field_names() -> list:
         return ['make', 'model', 'socket', 'status']
-
-    @staticmethod
-    def display_names() -> list:
-        names = Motherboard.field_names()
-        names.insert(0, 'id')
-        return names
 
     def from_dict(self, data: dict) -> bool:
         self.make = data.get('make') if data.get('make') else self.make

@@ -1,6 +1,8 @@
 from flask import request
 from flask_restx import Resource
-from app import api, utils, motherboards
+from app import api, motherboards
+from app.utils import object_as_dict
+from app.models import get_category_data, get_category_fields, add_item, update_item, delete_item, Motherboard
 
 
 @motherboards.route('/')
@@ -22,7 +24,7 @@ class Motherboards(Resource):
         if args.get('socket'):
             filter_data.setdefault('socket', args.get('socket'))
 
-        all_mb_data = utils.get_category_data('mb')[1]
+        all_mb_data = get_category_data('mb')[1]
         if not filter_data:
             return {'mb': all_mb_data}
         else:
@@ -41,7 +43,7 @@ class Motherboards(Resource):
         'socket': 'how do you plug it in'
     })
     def post(self):
-        fields = utils.get_category_fields('mb')
+        fields = get_category_fields('mb')
         args = request.args
 
         data = dict()
@@ -50,10 +52,10 @@ class Motherboards(Resource):
                 data.setdefault(field, args.get(field))
 
         if len(fields) == len(data) and 'id' not in args:
-            utils.add_item(data, category='mb')
+            add_item(data, category='mb')
         elif 'id' in args:
             data.setdefault('id', args.get('id'))
-            utils.update_item(data, category='mb')
+            update_item(data, category='mb')
 
     @api.doc(params={
         'id': 'database id to delete'
@@ -62,14 +64,12 @@ class Motherboards(Resource):
         id_arg = request.args.get('id')
 
         if id_arg:
-            utils.delete_item({'id': id_arg}, 'mb')
+            delete_item({'id': id_arg}, 'mb')
 
 
 @motherboards.route('/<id>')
 class MotherboardsById(Resource):
     @api.response(200, 'return details of a specific mb')
     def get(self, id):
-        from app.models import Motherboard, object_as_dict
         results = Motherboard.query.get(id)
         return {'mb': object_as_dict(results)}
-

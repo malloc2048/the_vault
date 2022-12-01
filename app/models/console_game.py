@@ -2,17 +2,17 @@ from app import db
 from app.utils import object_as_dict
 
 
-class DVD(db.Model):
+class ConsoleGame(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     title = db.Column(db.String(128), index=True)
-    format = db.Column(db.String(128), index=True)
-    director = db.Column(db.String(128), index=True)
     release = db.Column(db.String(128), index=True)
+    platform = db.Column(db.String(8), index=True)
+    publisher = db.Column(db.String(128), index=True)
 
-    display_name = 'Movies'
+    display_name = 'Console Games'
 
     def __repr__(self):
-        return f'<DVD {self.title}>'
+        return f'<Game {self.title} {self.platform}>'
 
     @staticmethod
     def field_names() -> list:
