@@ -67,7 +67,7 @@ movies = api.namespace(
 )
 
 from app import routes, models
-from app.api_routes import processor, categories, motherboards, operating_systems, movies, gpu
+from app.api_routes import processor, categories, motherboards, operating_systems, movies, gpu, games
 
 app.register_blueprint(blueprint=blueprint)
 with app.app_context():

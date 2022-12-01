@@ -13,7 +13,7 @@ categories = {
     'cpu': Processor,
     'gpu': GraphicsCard,
     'movie': Movie,
-    'games': Game,
+    'game': Game,
 }
 
 
