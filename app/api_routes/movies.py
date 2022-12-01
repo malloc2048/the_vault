@@ -1,12 +1,12 @@
 from flask import request
-from app import api, dvds, db
+from app import api, movies, db
 from flask_restx import Resource
 from app.utils import object_as_dict
-from app.models import get_category_data, get_category_fields, add_item, update_item, delete_item, DVD
+from app.models import get_category_data, get_category_fields, add_item, update_item, delete_item, Movie
 
 
-@dvds.route('/')
-class Dvds(Resource):
+@movies.route('/')
+class Movies(Resource):
     @api.doc(params={
         'format': 'media type',
         'director': 'who made it',
@@ -50,11 +50,11 @@ class Dvds(Resource):
             return object_as_dict(add_item(data=args, category='dvd', db=db))
 
 
-@dvds.route('/<record_id>')
+@movies.route('/<record_id>')
 class MovieByID(Resource):
     @api.response(200, 'return details of a specific DVD')
     def get(self, record_id):
-        results = DVD.query.get(record_id)
+        results = Movie.query.get(record_id)
         return {'movie': object_as_dict(results)}
 
     @api.doc(params={
@@ -70,7 +70,7 @@ class MovieByID(Resource):
         if len(args) >= 1:
             args.setdefault('id', record_id)
             update_item(args, category='dvd', db=db)
-            return {'movie': object_as_dict(DVD.query.get(record_id))}
+            return {'movie': object_as_dict(Movie.query.get(record_id))}
 
     @api.response(200, 'return details of a specific DVD')
     def delete(self, record_id):

@@ -5,7 +5,6 @@ from app import app, models, db
 @app.route('/')
 @app.route('/index')
 def home():
-    print(models.category_details())
     return render_template(
         'index.html',
         title='Home',
@@ -44,10 +43,8 @@ def new_category_item(category):
                     update = True
 
             if update:
-                print('update')
                 models.update_item(data, category, db)
             else:
-                print('delete')
                 models.delete_item(data, category, db)
 
         else:
