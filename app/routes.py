@@ -1,4 +1,4 @@
-from flask import render_template, request, redirect
+from flask import render_template, request, redirect, url_for
 from app import app, models, db
 
 
@@ -17,7 +17,11 @@ def home():
 @app.route('/category/<category>', methods=['GET'])
 def category_display(category):
     if request.method == 'GET':
+        print(request.args.to_dict())
+
         attributes, data = models.get_category_data(category)
+        attributes.remove('id')
+        print(data)
 
         return render_template(
             f'category.html',
@@ -52,4 +56,4 @@ def new_category_item(category):
 
     except KeyError:
         pass
-    return redirect(f'/category/{category}')
+    return redirect(url_for(f'/category/{category}', filter='filter'))
