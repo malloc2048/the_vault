@@ -14,13 +14,6 @@ class Processor(db.Model):
         return f'<CPU {self.make} {self.model} {self.frequency}>'
 
     @staticmethod
-    def field_names() -> list:
-        return ['make', 'model', 'frequency', 'socket']
+    def validate(data: dict) -> bool:
+        return bool(data.get('make') and data.get('model'))
 
-    def from_dict(self, data: dict) -> bool:
-        self.make = data.get('make') if data.get('make') else self.make
-        self.model = data.get('model') if data.get('model') else self.model
-        self.socket = data.get('socket') if data.get('socket') else self.socket
-        self.frequency = data.get('frequency') if data.get('frequency') else self.frequency
-
-        return True

@@ -1,21 +1,19 @@
 from .os import OS
-from .dvd import DVD
+from .movie import Movie
 from .cpu import Processor
 from .mb import Motherboard
-from .pc_game import PCGame
 from .gpu import GraphicsCard
-from .console_game import ConsoleGame
-from app.utils import object_as_dict
+from .game import Game
+from app.utils import object_as_dict, obj_from_dict
 
 
 categories = {
-    'mb': Motherboard,
-    'pc': PCGame,
     'os': OS,
+    'mb': Motherboard,
     'cpu': Processor,
     'gpu': GraphicsCard,
-    'dvd': DVD,
-    'console': ConsoleGame,
+    'movie': Movie,
+    'games': Game,
 }
 
 
@@ -72,7 +70,7 @@ def add_item(data: dict, category: str, db):
     except KeyError:
         item = None
 
-    if item.from_dict(data):
+    if item and obj_from_dict(item, data) and item.validate(data=data):
         db.session.add(item)
         db.session.commit()
     return item

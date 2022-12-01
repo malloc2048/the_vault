@@ -1,26 +1,22 @@
 from app import db
 
 
+# can index later if things get slow
 class GraphicsCard(db.Model):
     id = db.Column(db.Integer, primary_key=True)
-    make = db.Column(db.String(128), index=True)
-    model = db.Column(db.String(120), index=True)
-    vram = db.Column(db.Integer)
-    interface = db.Column(db.String(120))
+    manufacturer = db.Column(db.String(16))
+    model = db.Column(db.String(64))
+    gpu_manufacturer = db.Column(db.String(8))
+    gpu_series = db.Column(db.String(16))
+    gpu_model = db.Column(db.String(32))
+    vram = db.Column(db.String(8))
+    interface = db.Column(db.String(8))
 
     display_name = 'GPUs'
 
     def __repr__(self):
-        return f'<GPU {self.make} {self.model}>'
+        return f'<GPU {self.manufacturer} {self.model}>'
 
     @staticmethod
-    def field_names() -> list:
-        return ['make', 'model', 'vram', 'interface']
-
-    def from_dict(self, data: dict) -> bool:
-        self.make = data.get('make') if data.get('make') else self.make
-        self.model = data.get('model') if data.get('model') else self.model
-        self.socket = data.get('vram') if data.get('vram') else self.socket
-        self.frequency = data.get('interface') if data.get('interface') else self.frequency
-
-        return True
+    def validate(data: dict) -> bool:
+        return bool(data.get('gpu_manufacturer') and data.get('gpu_series') and data.get('gpu_model'))

@@ -15,18 +15,5 @@ class OS(db.Model):
         return f'<OS {self.publisher} {self.name}>'
 
     @staticmethod
-    def field_names() -> list:
-        return ['publisher', 'name', 'version', 'product key', 'media']
-
-    @staticmethod
-    def required_field_names() -> list:
-        return ['publisher', 'name', 'version']
-
-    def from_dict(self, data: dict):
-        self.publisher = data.get('publisher') if data.get('publisher') else self.publisher
-        self.name = data.get('name') if data.get('name') else self.name
-        self.version = data.get('version') if data.get('version') else self.version
-        self.media_type = data.get('media') if data.get('media') else self.media_type
-        self.product_key = data.get('product Key') if data.get('product Key') else self.product_key
-
-        return True
+    def validate(data: dict) -> bool:
+        return bool(data.get('publisher') and data.get('name') and data.get('version'))

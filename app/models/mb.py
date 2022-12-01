@@ -14,13 +14,5 @@ class Motherboard(db.Model):
         return f'<Motherboard {self.make} {self.model}>'
 
     @staticmethod
-    def field_names() -> list:
-        return ['make', 'model', 'socket', 'status']
-
-    def from_dict(self, data: dict) -> bool:
-        self.make = data.get('make') if data.get('make') else self.make
-        self.model = data.get('model') if data.get('model') else self.model
-        self.socket = data.get('socket') if data.get('socket') else self.socket
-        self.status = data.get('status') if data.get('status') else self.status
-
-        return True
+    def validate(data: dict) -> bool:
+        return bool(data.get('socket'))

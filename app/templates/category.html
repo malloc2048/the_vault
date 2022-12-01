@@ -8,7 +8,7 @@
                     <div class="form-group">
                         {% for attribute in attributes %}
                             <label >{{ attribute }}</label>
-                            <input type="text" class="form-control" name="{{ attribute }}" id="{{ attribute }}" placeholder="{{category}} {{ attribute }}">
+                            <input type="text" class="form-control" name="{{ attribute }}" id="{{ attribute }}" placeholder="{{ attribute }}">
                         {% endfor %}
                     </div>
                     <button type="submit" onclick="this.form.submit()">Update {{ category }}</button>
