@@ -1,5 +1,6 @@
 from flask import render_template, request, redirect, url_for
-from app import app, models, db
+from app import app, models
+import json
 
 
 @app.route('/')
@@ -16,44 +17,45 @@ def home():
 
 @app.route('/category/<category>', methods=['GET'])
 def category_display(category):
-    if request.method == 'GET':
-        print(request.args.to_dict())
+    # todo separate these returns so that a db query is only done once
+    attributes, data = models.get_category_data(category)
+    attributes.remove('id')
 
-        attributes, data = models.get_category_data(category)
-        attributes.remove('id')
-        print(data)
+    args = request.args.to_dict()
+    filtered_data = dict()
+    if 'filter' in args:
+        # this is just plain janky
+        filter_str = args.get('filter').replace('\'', '\"')
+        filter_dict = json.loads(filter_str)
 
-        return render_template(
-            f'category.html',
-            category_display_name=models.get_category_display_name(category),
-            category=category,
-            attributes=attributes,
-            category_data=data,
-            categories=models.category_details(),
-        )
+        print(filter_dict)
+
+    filters = dict()
+    for row in data:
+        for item in row:
+            if item != 'id' and row[item]:
+                filters.setdefault(item, set()).add(row[item])
+
+    return render_template(
+        f'category.html',
+        category_display_name=models.get_category_display_name(category),
+        category=category,
+        attributes=attributes,
+        category_data=data,
+        categories=models.category_details(),
+        filters=filters
+    )
 
 
 @app.route('/new_item/<category>', methods=['POST'])
 def new_category_item(category):
-    try:
-        data = request.form.to_dict()
+    data = request.form.to_dict()
 
-        if data.get('id'):
-            update = False
+    delete = [key for key in data if data[key] in key]
+    for key in delete:
+        del data[key]
 
-            # if any other field is populated other than ID, then update the entry, otherwise we are going to delete
-            for x in data:
-                if x != 'id' and data.get(x):
-                    update = True
-
-            if update:
-                models.update_item(data, category, db)
-            else:
-                models.delete_item(data, category, db)
-
-        else:
-            models.add_item(data, category, db)
-
-    except KeyError:
-        pass
-    return redirect(url_for(f'/category/{category}', filter='filter'))
+    if data:
+        return redirect(url_for(f'category_display', category=category, filter=data))
+    else:
+        return redirect(url_for(f'category_display', category=category))

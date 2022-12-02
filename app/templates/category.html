@@ -6,10 +6,13 @@
             <div class="col-sm-3">
                 <h3>Filter Options:</h3>
                 <form class="form-horizontal-pf-align-left" role="form" method="post" action="/new_item/{{ category }}">
-                    {% for attribute in attributes %}
+                    {% for filter in filters %}
                     <div>
-                        <select class="form-select" aria-label="select example">
-                            <option selected>{{attribute}}</option>
+                        <select name="filter_{{ filter }}" class="form-select" aria-label="select example">
+                            <option selected>{{ filter }}</option>
+                            {% for f in filters[filter] %}
+                                <option>{{ f }}</option>
+                            {% endfor %}
                         </select>
                     </div>
                     {% endfor %}
