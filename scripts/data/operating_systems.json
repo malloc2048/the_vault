@@ -1,0 +1,13 @@
+{
+  "operating_systems": [
+    {"publisher": "microsoft", "name": "windows", "version": "95"},
+    {"publisher": "microsoft", "name": "windows", "version": "98"},
+    {"publisher": "microsoft", "name": "windows", "version": "2000"},
+    {"publisher": "microsoft", "name": "windows", "version": "XP"},
+    {"publisher": "microsoft", "name": "windows", "version": "Vista"},
+    {"publisher": "microsoft", "name": "windows", "version": "7"},
+    {"publisher": "microsoft", "name": "windows", "version": "8"},
+    {"publisher": "microsoft", "name": "windows", "version": "10"},
+    {"publisher": "microsoft", "name": "windows", "version": "11"}
+  ]
+}

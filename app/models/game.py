@@ -4,9 +4,10 @@ from app import db
 class Game(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     title = db.Column(db.String(128), index=True)
-    release = db.Column(db.String(128), index=True)
+    release = db.Column(db.String(4), index=True)
     platform = db.Column(db.String(8), index=True)
-    publisher = db.Column(db.String(128), index=True)
+    developer = db.Column(db.String(128), index=True)
+    genre = db.Column(db.String(16), index=True)
 
     display_name = 'Games'
     group = 'software'

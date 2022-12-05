@@ -28,8 +28,6 @@ def category_display(category):
         filter_str = args.get('filter').replace('\'', '\"')
         filter_dict = json.loads(filter_str)
 
-        print(filter_dict)
-
     filters = dict()
     for row in data:
         for item in row:
