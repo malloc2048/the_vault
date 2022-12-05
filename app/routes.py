@@ -19,7 +19,6 @@ def home():
 def category_display(category):
     # todo separate these returns so that a db query is only done once
     attributes, data = models.get_category_data(category)
-    attributes.remove('id')
 
     args = request.args.to_dict()
     filtered_data = dict()
@@ -36,7 +35,6 @@ def category_display(category):
 
     return render_template(
         f'category.html',
-        category_display_name=models.get_category_display_name(category),
         category=category,
         attributes=attributes,
         category_data=data,
