@@ -7,7 +7,7 @@ from app.models import add_item, update_item, delete_item, Game
 
 
 @games.route('/')
-class Motherboards(Resource):
+class Games(Resource):
     @api.doc(params=Game.query_fields)
     @api.response(200, 'returns a list of operating systems')
     def get(self):
@@ -24,8 +24,8 @@ class Motherboards(Resource):
             return object_as_dict(add_item(data=args, category='game', db=db))
 
 
-@games.route('/<id>')
-class MotherboardsById(Resource):
+@games.route('/<record_id>')
+class GamesById(Resource):
     @api.response(200, 'return details of a specific operating system')
     def get(self, record_id):
         results = Game.query.get(record_id)

@@ -74,10 +74,7 @@ def add_item(data: dict, category: str, db):
     data_hash = hashlib.sha256(data_str.encode('utf-8')).hexdigest()
 
     # see if this hash is already in the DB, and skip the add if it is
-    if category == 'movie':
-        hash_entry = categories.get(category).query.filter_by(hash=data_hash).all()
-    else:
-        hash_entry = None
+    hash_entry = categories.get(category).query.filter_by(hash=data_hash).first()
 
     # so this hash does not exist go forth with the add
     if not hash_entry:
@@ -92,9 +89,8 @@ def add_item(data: dict, category: str, db):
             db.session.commit()
     else:
         # the hash exists. get that row and return the data for it
-        item = categories.get(category).query.filter_by(
-            hash=data_hash
-        ).first()
+        print(f'[INFO] hash already exists {data_hash}')
+        item = hash_entry
 
     return item
 
@@ -122,4 +118,5 @@ def delete_item(data: dict, category: str, db):
         item = result[0]
         db.session.delete(item)
         db.session.commit()
-    return result[0]
+        return item
+    return None
