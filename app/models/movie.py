@@ -6,7 +6,8 @@ class Movie(db.Model):
     title = db.Column(db.String(128), index=True)
     format = db.Column(db.String(128), index=True)
     director = db.Column(db.String(128), index=True)
-    release = db.Column(db.String(128), index=True)
+    release = db.Column(db.String(4), index=True)
+    hash = db.Column(db.String(128), index=True)
 
     display_name = 'Movies'
     group = 'media'

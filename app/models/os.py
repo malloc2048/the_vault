@@ -8,6 +8,7 @@ class OS(db.Model):
     version = db.Column(db.String(16))
     software_version = db.Column(db.String(16))
     product_key = db.Column(db.String(32))
+    hash = db.Column(db.String(128), index=True)
 
     display_name = 'Operating Systems'
     group = 'software'

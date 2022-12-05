@@ -7,6 +7,7 @@ class Processor(db.Model):
     model = db.Column(db.String(128), index=True)
     frequency = db.Column(db.Integer)
     socket = db.Column(db.String(128))
+    hash = db.Column(db.String(128), index=True)
 
     display_name = 'CPUs'
     group = 'hardware'

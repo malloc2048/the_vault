@@ -11,6 +11,7 @@ class GraphicsCard(db.Model):
     gpu_model = db.Column(db.String(32))
     vram = db.Column(db.String(8))
     interface = db.Column(db.String(8))
+    hash = db.Column(db.String(128), index=True)
 
     display_name = 'GPUs'
     group = 'hardware'

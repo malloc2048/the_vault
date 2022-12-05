@@ -30,7 +30,7 @@ def category_display(category):
     filters = dict()
     for row in data:
         for item in row:
-            if item != 'id' and row[item]:
+            if item != 'id' and item != 'hash' and row[item]:
                 filters.setdefault(item, set()).add(row[item])
 
     return render_template(

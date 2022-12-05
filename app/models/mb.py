@@ -7,6 +7,7 @@ class Motherboard(db.Model):
     model = db.Column(db.String(128), index=True)
     socket = db.Column(db.String(128))
     status = db.Column(db.String(128))
+    hash = db.Column(db.String(128), index=True)
 
     display_name = 'Motherboards'
     group = 'hardware'

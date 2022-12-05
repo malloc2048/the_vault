@@ -8,6 +8,7 @@ class Game(db.Model):
     platform = db.Column(db.String(8), index=True)
     developer = db.Column(db.String(128), index=True)
     genre = db.Column(db.String(16), index=True)
+    hash = db.Column(db.String(128), index=True)
 
     display_name = 'Games'
     group = 'software'

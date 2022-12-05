@@ -1,9 +1,13 @@
+import json
+
 from .os import OS
+from .game import Game
 from .movie import Movie
 from .cpu import Processor
 from .mb import Motherboard
 from .gpu import GraphicsCard
-from .game import Game
+
+import hashlib
 from app.utils import object_as_dict, obj_from_dict
 
 
@@ -13,7 +17,7 @@ categories = {
     'cpu': Processor,
     'gpu': GraphicsCard,
     'movie': Movie,
-    'game': Game,
+    'game': Game
 }
 
 
@@ -66,14 +70,32 @@ def get_required_category_fields(category: str) -> list:
 
 
 def add_item(data: dict, category: str, db):
-    try:
-        item = categories.get(category)()
-    except KeyError:
-        item = None
+    data_str = json.dumps(data)
+    data_hash = hashlib.sha256(data_str.encode('utf-8')).hexdigest()
 
-    if item and obj_from_dict(item, data) and item.validate(data=data):
-        db.session.add(item)
-        db.session.commit()
+    # see if this hash is already in the DB, and skip the add if it is
+    if category == 'movie':
+        hash_entry = categories.get(category).query.filter_by(hash=data_hash).all()
+    else:
+        hash_entry = None
+
+    # so this hash does not exist go forth with the add
+    if not hash_entry:
+        try:
+            item = categories.get(category)()
+            item.hash = data_hash
+        except KeyError:
+            item = None
+
+        if item and obj_from_dict(item, data) and item.validate(data=data):
+            db.session.add(item)
+            db.session.commit()
+    else:
+        # the hash exists. get that row and return the data for it
+        item = categories.get(category).query.filter_by(
+            hash=data_hash
+        ).first()
+
     return item
 
 
