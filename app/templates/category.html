@@ -5,7 +5,7 @@
         <div class="row">
             <div class="col-sm-3">
                 <h3>Filter Options:</h3>
-                <form class="form-horizontal-pf-align-left" role="form" method="post" action="/new_item/{{ category }}">
+                <form class="form-horizontal-pf-align-left" role="form" method="post" action="/filter/{{ category }}">
                     {% for filter in filters %}
                     <div>
                         <select name="filter_{{ filter }}" class="form-select" aria-label="select example">

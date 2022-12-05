@@ -15,23 +15,38 @@ def home():
     )
 
 
+def filter_data(filters: list, data: list) -> list:
+    keep_data = list()
+    for datum in data:
+        for filter in filters:
+            if filter in datum.values():
+                keep_data.append(datum)
+    return keep_data
+
+
 @app.route('/category/<category>', methods=['GET'])
 def category_display(category):
     # todo separate these returns so that a db query is only done once
     attributes, data = models.get_category_data(category)
 
+    # convert the requested filters if present
     args = request.args.to_dict()
-    filtered_data = dict()
+    filter_dict = dict()
     if 'filter' in args:
         # this is just plain janky
         filter_str = args.get('filter').replace('\'', '\"')
         filter_dict = json.loads(filter_str)
 
+    # this is how I am getting what is displayed as a possible filter
     filters = dict()
     for row in data:
         for item in row:
             if item != 'id' and item != 'hash' and row[item]:
                 filters.setdefault(item, set()).add(row[item])
+
+    # filter the results
+    if filter_dict:
+        data = filter_data(list(filter_dict.values()), data)
 
     return render_template(
         f'category.html',
@@ -43,7 +58,7 @@ def category_display(category):
     )
 
 
-@app.route('/new_item/<category>', methods=['POST'])
+@app.route('/filter/<category>', methods=['POST'])
 def new_category_item(category):
     data = request.form.to_dict()
 
