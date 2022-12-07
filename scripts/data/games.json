@@ -1,5 +1,7 @@
 {
-  "games": [
+  "group": "software",
+  "category": "games",
+  "data": [
     {"title":  "Dragon Age Origins", "platform":  "windows", "publisher":  "BioWare", "genre": "rpg"},
     {"title":  "Dragon Age Awakening", "platform":  "windows", "publisher":  "BioWare", "genre": "rpg"},
     {"title":  "Dragon Age II", "platform":  "windows", "publisher":  "BioWare", "genre": "rpg"},

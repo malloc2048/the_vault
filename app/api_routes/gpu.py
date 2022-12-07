@@ -1,12 +1,12 @@
 from flask import request
-from app import api, gpus, db
 from flask_restx import Resource
+from app import api, hardware, db
 from app.utils import object_as_dict
 from app.api_routes import category_get
 from app.models import add_item, update_item, delete_item, GraphicsCard
 
 
-@gpus.route('/')
+@hardware.route('/gpu')
 class Gpus(Resource):
     @api.doc(params=GraphicsCard.query_fields)
     @api.response(200, 'returns a list of graphics cards')
@@ -24,8 +24,8 @@ class Gpus(Resource):
             return object_as_dict(add_item(data=args, category='gpu', db=db))
 
 
-@gpus.route('/<record_id>')
-class ProcessorsByID(Resource):
+@hardware.route('/gpu/<record_id>')
+class GpuByID(Resource):
     @api.response(200, 'return details of a specific gpu')
     def get(self, record_id):
         results = GraphicsCard.query.get(record_id)

@@ -1,5 +1,7 @@
 {
-  "operating_systems": [
+  "group": "software",
+  "category": "operating_systems",
+  "data": [
     {"publisher": "microsoft", "name": "windows", "version": "95"},
     {"publisher": "microsoft", "name": "windows", "version": "98"},
     {"publisher": "microsoft", "name": "windows", "version": "2000"},

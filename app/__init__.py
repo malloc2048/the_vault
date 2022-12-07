@@ -18,49 +18,25 @@ categories = api.namespace(
     base_path='/api'
 )
 
-processors = api.namespace(
-    'processors',
-    description='The CPUs I gots',
+hardware = api.namespace(
+    'hardware',
+    description='The hardware group',
     authorizations=Config.authorizations,
     security='api_token',
     base_path='/api'
 )
 
-gpus = api.namespace(
-    'gpus',
-    description='The GPUs I gots',
+software = api.namespace(
+    'software',
+    description='The software group',
     authorizations=Config.authorizations,
     security='api_token',
     base_path='/api'
 )
 
-motherboards = api.namespace(
-    'motherboards',
-    description='The motherboards I gots',
-    authorizations=Config.authorizations,
-    security='api_token',
-    base_path='/api'
-)
-
-operating_systems = api.namespace(
-    'operating_systems',
-    description='The operating systems I gots',
-    authorizations=Config.authorizations,
-    security='api_token',
-    base_path='/api'
-)
-
-games = api.namespace(
-    'games',
-    description='The games',
-    authorizations=Config.authorizations,
-    security='api_token',
-    base_path='/api'
-)
-
-movies = api.namespace(
-    'movies',
-    description='Some Movies',
+video = api.namespace(
+    'videos',
+    description='The video group',
     authorizations=Config.authorizations,
     security='api_token',
     base_path='/api'

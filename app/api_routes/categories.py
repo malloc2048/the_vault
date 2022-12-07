@@ -17,24 +17,6 @@ class Categories(Resource):
             if 'api' in api_route:
                 route_pieces = api_route.split('/')
                 if route_pieces[2] and 'swagger' not in route_pieces[2]:
-                    api_routes.add(route_pieces[2])
-
+                    if route_pieces[3]:
+                        api_routes.add(f'{route_pieces[2]}/{route_pieces[3]}')
         return {'categories': list(api_routes)}
-
-
-@categories.route('/dedup')
-class DeDuplicateCategories(Resource):
-    def get(self):
-        categories = models.category_details(False)
-        seen_hashes = list()
-
-        for category in categories:
-            _, cat_data = models.get_category_data(category)
-            for entry in cat_data:
-                entry_id = entry.pop('id')
-                entry_hash = hashlib.sha256(json.dumps(entry).encode('utf-8'))
-                if entry_hash.hexdigest() in seen_hashes:
-                    models.delete_item({'id': entry_id}, category, db)
-                else:
-                    seen_hashes.append(entry_hash.hexdigest())
-        return {'categories': categories}

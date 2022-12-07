@@ -1,12 +1,12 @@
 from flask import request
-from app import api, games, db
 from flask_restx import Resource
+from app import api, software, db
 from app.utils import object_as_dict
 from app.api_routes import category_get
 from app.models import add_item, update_item, delete_item, Game
 
 
-@games.route('/')
+@software.route('/games')
 class Games(Resource):
     @api.doc(params=Game.query_fields)
     @api.response(200, 'returns a list of operating systems')
@@ -24,7 +24,7 @@ class Games(Resource):
             return object_as_dict(add_item(data=args, category='game', db=db))
 
 
-@games.route('/<record_id>')
+@software.route('/games/<record_id>')
 class GamesById(Resource):
     @api.response(200, 'return details of a specific operating system')
     def get(self, record_id):

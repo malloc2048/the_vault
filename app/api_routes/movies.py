@@ -1,12 +1,12 @@
 from flask import request
-from app import api, movies, db
+from app import api, video, db
 from flask_restx import Resource
 from app.utils import object_as_dict
 from app.api_routes import category_get
 from app.models import add_item, update_item, delete_item, Movie
 
 
-@movies.route('/')
+@video.route('/movies')
 class Movies(Resource):
     @api.doc(params=Movie.query_fields)
     @api.response(200, 'return list of movies')
@@ -24,7 +24,7 @@ class Movies(Resource):
             return object_as_dict(add_item(data=args, category='movie', db=db))
 
 
-@movies.route('/<record_id>')
+@video.route('/movies/<record_id>')
 class MovieByID(Resource):
     @api.response(200, 'return details of a specific DVD')
     def get(self, record_id):

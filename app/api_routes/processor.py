@@ -1,13 +1,13 @@
 from flask import request
 from flask_restx import Resource
-from app import api, processors, db
+from app import api, db, hardware
 from app.utils import object_as_dict
 from app.api_routes import category_get
 from app.models import add_item, update_item, delete_item, Processor
 
 
-@processors.route('/')
-class Processors(Resource):
+@hardware.route('/cpu')
+class Cpu(Resource):
     @api.doc(params=Processor.query_fields)
     @api.response(200, 'returns a list of cpus')
     def get(self):
@@ -24,8 +24,8 @@ class Processors(Resource):
             return object_as_dict(add_item(data=args, category='cpu', db=db))
 
 
-@processors.route('/<id>')
-class ProcessorsByID(Resource):
+@hardware.route('/cpu/<record_id>')
+class CpuByID(Resource):
     @api.response(200, 'return details of a specific cpu')
     def get(self, record_id):
         results = Processor.query.get(record_id)

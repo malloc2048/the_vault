@@ -1,13 +1,13 @@
 from flask import request
 from flask_restx import Resource
+from app import api, software, db
 from app.utils import object_as_dict
 from app.api_routes import category_get
-from app import api, operating_systems, db
 from app.models import add_item, update_item, delete_item, OS
 
 
-@operating_systems.route('/')
-class Motherboards(Resource):
+@software.route('/operating_systems')
+class OperatingSystem(Resource):
     @api.doc(params=OS.query_fields)
     @api.response(200, 'returns a list of operating systems')
     def get(self):
@@ -24,8 +24,8 @@ class Motherboards(Resource):
             return object_as_dict(add_item(data=args, category='os', db=db))
 
 
-@operating_systems.route('/<id>')
-class MotherboardsById(Resource):
+@software.route('/operating_systems/<id>')
+class OperatingSystemById(Resource):
     @api.response(200, 'return details of a specific operating system')
     def get(self, record_id):
         results = OS.query.get(record_id)

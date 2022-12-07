@@ -2,7 +2,7 @@ import json
 import argparse
 import requests
 
-api_url = 'http://localhost/api/'
+api_url = 'http://localhost/api'
 
 
 def get_api_categories() -> list:
@@ -17,21 +17,12 @@ def get_api_categories() -> list:
         return []
 
 
-def process_category(category: str, data_items: list):
+def process_category(endpoint: str, data_items: list):
     if data_items:
-        endpoint = f'{api_url}{category}'
-
         for datum in data_items:
             response = requests.post(endpoint, params=datum)
             if response.status_code != 200:
                 print(f'[INFO] something went wrong status code: {response.status_code}')
-
-
-def dedup():
-    endpoint = f'{api_url}categories/dedup'
-    response = requests.get(endpoint)
-    if response.status_code != 200:
-        print(f'[INFO] something went wrong deduping status code: {response.status_code}')
 
 
 def main():
@@ -43,10 +34,8 @@ def main():
 
         with open(args.f) as json_data_file:
             data = json.load(json_data_file)
-
-            for category in categories:
-                process_category(category, data.get(category))
-        dedup()
+            endpoint = f'{api_url}/{data.get("group")}/{data.get("category")}'
+            process_category(endpoint, data.get('data'))
     else:
         print('[INFO] API appears to be down')
 
