@@ -1,4 +1,4 @@
-from app.models import get_category_data, get_category_display_name
+from app.models.utils import get_category_data, get_category_display_name
 
 
 def category_get(args: dict, category: str):

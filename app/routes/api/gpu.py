@@ -3,7 +3,8 @@ from flask_restx import Resource
 from app import api, hardware, db
 from app.utils import object_as_dict
 from app.routes.api import category_get
-from app.models import add_item, update_item, delete_item, GraphicsCard
+from app.models.utils import add_item, update_item, delete_item
+from app.models.gpu import GraphicsCard
 
 
 @hardware.route('/gpu')

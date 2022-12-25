@@ -3,7 +3,8 @@ from app import api, video, db
 from flask_restx import Resource
 from app.utils import object_as_dict
 from app.routes.api import category_get
-from app.models import add_item, update_item, delete_item, Movie
+from app.models.utils import add_item, update_item, delete_item
+from app.models.movie import Movie
 
 
 @video.route('/movies')

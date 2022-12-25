@@ -1,6 +1,6 @@
 from app import app
 from flask import render_template
-from app.models import category_details
+from app.models.utils import category_details
 
 
 @app.route('/')

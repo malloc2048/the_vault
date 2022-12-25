@@ -1,8 +1,8 @@
 import json
 from app import app
 from . import filter_data
-from app.models import get_category_data, category_details
 from flask import request, render_template, redirect, url_for
+from app.models.utils import get_category_data, category_details
 
 
 @app.route('/category/<category>', methods=['GET'])
