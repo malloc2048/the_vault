@@ -2,7 +2,7 @@ from flask import request
 from flask_restx import Resource
 from app import api, db, hardware
 from app.utils import object_as_dict
-from app.api_routes import category_get
+from app.routes.api import category_get
 from app.models import add_item, update_item, delete_item, Processor
 
 

@@ -1,39 +1,20 @@
-from flask import render_template, request, redirect, url_for
-from app import app, models
 import json
-
-
-@app.route('/')
-@app.route('/index')
-def home():
-    return render_template(
-        'index.html',
-        title='Home',
-        categories=models.category_details(),
-        category_data=[],
-        category=''
-    )
-
-
-def filter_data(filters: list, data: list) -> list:
-    keep_data = list()
-    for datum in data:
-        for filter in filters:
-            if filter in datum.values():
-                keep_data.append(datum)
-    return keep_data
+from app import app
+from . import filter_data
+from app.models import get_category_data, category_details
+from flask import request, render_template, redirect, url_for
 
 
 @app.route('/category/<category>', methods=['GET'])
 def category_display(category):
     # todo separate these returns so that a db query is only done once
-    attributes, data = models.get_category_data(category)
+    attributes, data = get_category_data(category)
 
     # convert the requested filters if present
     args = request.args.to_dict()
     filter_dict = dict()
     if 'filter' in args:
-        # this is just plain janky
+        # TODO: this is just plain janky
         filter_str = args.get('filter').replace('\'', '\"')
         filter_dict = json.loads(filter_str)
 
@@ -53,7 +34,7 @@ def category_display(category):
         category=category,
         attributes=attributes,
         category_data=data,
-        categories=models.category_details(),
+        categories=category_details(),
         filters=filters
     )
 

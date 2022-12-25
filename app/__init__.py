@@ -3,6 +3,7 @@ from app.config import Config
 from flask import Flask, Blueprint
 from flask_sqlalchemy import SQLAlchemy
 
+
 app = Flask(__name__)
 app.config.from_object(Config)
 db = SQLAlchemy(app)
@@ -42,8 +43,8 @@ video = api.namespace(
     base_path='/api'
 )
 
-from app import routes, models
-from app.api_routes import processor, categories, motherboards, operating_systems, movies, gpu, games
+from app.routes.app import home, category
+from app.routes.api import games, gpu, movies, processor, operating_systems, motherboards, categories
 
 app.register_blueprint(blueprint=blueprint)
 with app.app_context():
