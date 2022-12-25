@@ -4,20 +4,20 @@ ENV PYTHONDONTWRITEBYTECODE 1
 ENV PIP_DISABLE_PIP_VERSION_CHECK 1
 
 # Copy the application code and fix file ownership.
-COPY ./app /my_stuff/app
-COPY requirements.txt /my_stuff
-COPY scripts/start.sh /my_stuff/scripts/start.sh
-WORKDIR /my_stuff
+COPY ./app /vault81/app
+COPY requirements.txt /vault81
+COPY scripts/start.sh /vault81/scripts/start.sh
+WORKDIR /vault81
 
 # install python
-RUN apt-get update && apt-get install -y python3-dev python3-pip python3-venv
+RUN apt-get update && apt-get install -y python3-dev python3-pip
 
 # install python packages
 RUN pip install --upgrade pip
 RUN pip install -r requirements.txt
 
-ENV FLASK_APP=/mystuff/app
+ENV FLASK_APP=/vault81/app
 ENV FLASK_DEBUG=True
-ENV PYTHONPATH=/my_stuff
+ENV PYTHONPATH=/vault81
 
-CMD [ "/my_stuff/scripts/start.sh" ]
+CMD [ "/vault81/scripts/start.sh" ]

@@ -1,8 +1,8 @@
 version: '3.8'
 
 services:
-  my_stuff:
+  vault81:
     build: .
     ports:
       - "80:8001"
-    image: my_stuff:latest
+    image: vault81:latest
