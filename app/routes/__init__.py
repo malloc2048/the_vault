@@ -1,2 +1,2 @@
 from .app import home
-from .api import categories
+from .api import categories, hardware

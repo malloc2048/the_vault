@@ -2,9 +2,10 @@ import hashlib
 
 
 class Model:
-    def __init__(self, display_name: str, display_fields: list):
+    def __init__(self, display_name: str, display_fields: list, query_fields: dict):
         self.database = dict()
         self.display_name = display_name
+        self.query_fields = query_fields
         self.display_fields = display_fields
 
     def add(self, data: dict):

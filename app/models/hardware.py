@@ -7,5 +7,10 @@ model = Model(
         'type',
         'manufacturer',
         'model'
-    ]
+    ],
+    query_fields={
+        'type': '',
+        'manufacturer': '',
+        'model': ''
+    }
 )

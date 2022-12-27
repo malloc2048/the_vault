@@ -8,5 +8,6 @@ model = Model(
         'platform',
         'publisher',
         'genre'
-    ]
+    ],
+    query_fields={}
 )

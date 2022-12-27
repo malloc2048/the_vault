@@ -2,12 +2,10 @@ from flask_restx import Api
 from app.config import Config
 from flask import Flask, Blueprint
 from app.models import load_data_files
-# from flask_sqlalchemy import SQLAlchemy
 
 
 app = Flask(__name__)
 app.config.from_object(Config)
-# db = SQLAlchemy(app)
 
 blueprint = Blueprint('api', __name__, url_prefix='/api')
 api = Api(blueprint, title='Behold My Stuff', version='v0.1')

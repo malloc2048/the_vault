@@ -7,5 +7,6 @@ model = Model(
         'publisher',
         'name',
         'version'
-    ]
+    ],
+    query_fields={}
 )

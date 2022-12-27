@@ -8,5 +8,6 @@ model = Model(
         'format',
         'director',
         'release'
-    ]
+    ],
+    query_fields={}
 )
