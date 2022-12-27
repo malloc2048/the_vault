@@ -1,5 +1,5 @@
-# Vault 81
-Welcome to Vault 81 a place where random stuff is catalogued.
+# Vault
+Welcome to The Vault a place where random stuff is catalogued.
 
 ## Development Notes
 An attempt was made to make this as simple as possible, epsecialy when adding new models 
@@ -21,7 +21,7 @@ To add a new model:
 
 ### Linux
 * clone the repo 
-    * `git clone git@github.com:malloc2048/vault81.git`
+    * `git clone git@github.com:malloc2048/vault.git`
 * build the docker image
   * `docker-compose -f docker-compose-<env>.yaml build`
   * Note: for building it doesn't matter which compose file is specified
