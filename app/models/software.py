@@ -2,11 +2,10 @@ from app.models.model import Model
 
 
 model = Model(
-    display_name='Games',
+    display_name='Software',
     display_fields=[
-        'title',
-        'platform',
         'publisher',
-        'genre'
+        'name',
+        'version'
     ]
 )

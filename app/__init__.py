@@ -44,8 +44,8 @@ video = api.namespace(
 )
 
 from app.routes.app import home, category
-from app.routes.api import games, gpu, movies, processor, operating_systems, motherboards, categories
+# from app.routes.api import games, gpu, movies, processor, operating_systems, motherboards, categories
 
 app.register_blueprint(blueprint=blueprint)
-with app.app_context():
-    db.create_all()
+# with app.app_context():
+#     db.create_all()

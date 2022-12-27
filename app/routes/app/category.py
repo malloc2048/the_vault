@@ -2,12 +2,12 @@ import json
 from app import app
 from . import filter_data
 from flask import request, render_template, redirect, url_for
-from app.models.utils import get_category_data, category_details
+from app.models import get_category_data, category_details
 
 
 @app.route('/category/<category>', methods=['GET'])
 def category_display(category):
-    # todo separate these returns so that a db query is only done once
+    # TODO separate these returns so that a db query is only done once
     attributes, data = get_category_data(category)
 
     # convert the requested filters if present
