@@ -7,14 +7,12 @@ from app.models import get_category_data, category_details
 
 @app.route('/category/<category>', methods=['GET'])
 def category_display(category):
-    # TODO separate these returns so that a db query is only done once
     attributes, data = get_category_data(category)
 
     # convert the requested filters if present
     args = request.args.to_dict()
     filter_dict = dict()
     if 'filter' in args:
-        # TODO: this is just plain janky
         filter_str = args.get('filter').replace('\'', '\"')
         filter_dict = json.loads(filter_str)
 

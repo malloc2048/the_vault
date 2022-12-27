@@ -12,7 +12,7 @@ class Model:
             # calculate a hash for the data
             hash_str = ''
             for field in self.display_fields:
-                hash_str += data.get(field)
+                hash_str += data.get(field).lower()
             data_hash = hashlib.sha256(hash_str.encode('utf-8')).hexdigest()
 
             # check if that hash already exists in database, if not then add
