@@ -1,6 +1,18 @@
 # Vault 81
 Welcome to Vault 81 a place where random stuff is catalogued.
 
+## Development Notes
+An attempt was made to make this as simple as possible, epsecialy when adding new models 
+
+### Adding a new model
+To add a new model:
+* create a file in `vault/app/models/`
+* It is important that the name of the file match the model_type that will be used in data files
+  * this name is used to match data in a data file to a model
+* In the file instantiate an instance of `Model` providing required parameters
+  * `display_name` - this is the name that will appear in the nav bar of the web pages
+  * `display_fields` - this is a list of the fields of this data type that will be displayed in tables
+
 ## Running the Vault
 
 ### Dependencies

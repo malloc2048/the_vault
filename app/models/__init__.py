@@ -1,5 +1,4 @@
 import importlib
-from app.utils import object_as_dict
 
 
 categories_module_map = dict()
@@ -61,13 +60,6 @@ def get_category_data(category: str) -> (list, list):
         data = model.query_all()
         return display_fields, data
     return [], []
-
-
-def get_category_fields(category: str) -> list:
-    try:
-        return list(object_as_dict(categories_module_map.get(category)).keys())
-    except KeyError:
-        return []
 
 
 def get_required_category_fields(category: str) -> list:

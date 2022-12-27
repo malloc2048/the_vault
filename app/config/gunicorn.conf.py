@@ -16,4 +16,4 @@ reload = True
 accesslog = "-"
 access_log_format = '%(t)s %(h)s "%(r)s" %(s)s "%(a)s"'
 
-chdir = "/vault81/app"
+chdir = "/vault/app"

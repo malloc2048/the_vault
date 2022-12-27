@@ -1,0 +1,14 @@
+version: '3.8'
+
+services:
+  vault:
+    build:
+      context: ../
+      dockerfile: ./docker/Dockerfile
+
+    ports:
+      - "80:8001"
+    volumes:
+      - ../app:/vault/app
+      - ../scripts:/vault/scripts
+    image: vault:latest
