@@ -11,19 +11,23 @@ class Hardware(Resource):
     @api.response(200, 'returns a list of all hardware')
     def get(self):
         args = request.args.to_dict()
-        return model.query_all()
-        # return category_get(args, 'mb')
+        if args:
+            return model.query(args)
+        return model.query()
 
-    # @api.doc(params=Motherboard.mutation_fields)
-    # def post(self):
-    #     # fields = get_category_fields('dvd')
-    #     args = request.args.to_dict()
-    #
-    #     # validate title at least is provided
-    #     if Motherboard.validate(args):
-    #         return object_as_dict(add_item(data=args, category='mb', db=db))
+    @api.doc(params=model.mutation_fields)
+    def post(self):
+        args = request.args.to_dict()
+
+        if model.validate(args):
+            _, record = model.add(args)
+            return record
+
+        else:
+            return dict()
 
 
+# TODO: re-introduce deleting
 # @hardware.route('/hardware/<record_id>')
 # class MotherboardsById(Resource):
 #     @api.response(200, 'return details of a specific motherboard')

@@ -9,8 +9,13 @@ model = Model(
         'model'
     ],
     query_fields={
-        'type': '',
-        'manufacturer': '',
-        'model': ''
+        'type': 'the hardware type',
+        'manufacturer': 'who made it',
+        'model': 'what they called it'
+    },
+    mutation_fields={
+        'type': 'the hardware type',
+        'manufacturer': 'who made it',
+        'model': 'what they called it'
     }
 )

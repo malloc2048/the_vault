@@ -57,7 +57,7 @@ def get_category_data(category: str) -> (list, list):
     if model:
         data = list()
         display_fields = model.display_fields
-        data = model.query_all()
+        data = model.query()
         return display_fields, data
     return [], []
 

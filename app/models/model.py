@@ -2,13 +2,14 @@ import hashlib
 
 
 class Model:
-    def __init__(self, display_name: str, display_fields: list, query_fields: dict):
+    def __init__(self, display_name: str, display_fields: list, query_fields: dict, mutation_fields: dict = None):
         self.database = dict()
         self.display_name = display_name
         self.query_fields = query_fields
         self.display_fields = display_fields
+        self.mutation_fields = mutation_fields
 
-    def add(self, data: dict):
+    def add(self, data: dict) -> tuple:
         if data:
             # calculate a hash for the data
             hash_str = ''
@@ -20,9 +21,37 @@ class Model:
             if data_hash not in self.database:
                 self.database.setdefault(data_hash, data)
 
+            return data_hash, data
+        return '', {}
+
     @staticmethod
     def save():
         pass
 
-    def query_all(self) -> list:
-        return list(self.database.values())
+    def validate(self, data: dict) -> bool:
+        if data:
+            for key in self.mutation_fields.keys():
+                if key not in data:
+                    return False
+            return True
+
+        else:
+            return False
+
+    def filter_data(self, filter_param, data_set) -> list:
+        filtered_data = list()
+        for record in data_set:
+            if filter_param[1] == record.get(filter_param[0]):
+                filtered_data.append(record)
+        return filtered_data
+
+    def query(self, filter_params=None) -> list:
+        # TODO: maybe a better algorithm for filtering?
+        if filter_params:
+            filtered_data = self.database.values()
+            for param in filter_params:
+                filtered_data = self.filter_data((param, filter_params.get(param)), filtered_data)
+            return filtered_data
+
+        else:
+            return list(self.database.values())
