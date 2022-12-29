@@ -35,7 +35,7 @@ software = api.namespace(
 )
 
 video = api.namespace(
-    'videos',
+    'video',
     description='The video group',
     authorizations=Config.authorizations,
     security='api_token',

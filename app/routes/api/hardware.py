@@ -5,10 +5,10 @@ from app.models.hardware import model
 from app.routes.api import category_get
 
 
-@hardware.route('/hardware')
+@hardware.route('/')
 class Hardware(Resource):
     @api.doc(params=model.query_fields)
-    @api.response(200, 'returns a list of all hardware')
+    @api.response(200, 'returns a list of hardware')
     def get(self):
         args = request.args.to_dict()
         if args:

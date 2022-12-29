@@ -9,5 +9,6 @@ model = Model(
         'director',
         'release'
     ],
-    query_fields={}
+    query_fields={},
+    mutation_fields={}
 )

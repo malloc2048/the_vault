@@ -1,3 +1,5 @@
+__all__ = ['hardware', 'games', 'categories', 'movies', 'operating_systems']
+
 from app.models import get_category_data, get_category_display_name
 
 

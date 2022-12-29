@@ -9,5 +9,10 @@ model = Model(
         'publisher',
         'genre'
     ],
-    query_fields={}
+    query_fields={
+
+    },
+    mutation_fields={
+
+    }
 )

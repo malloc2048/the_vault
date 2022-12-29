@@ -8,5 +8,6 @@ model = Model(
         'name',
         'version'
     ],
-    query_fields={}
+    query_fields={},
+    mutation_fields={}
 )
