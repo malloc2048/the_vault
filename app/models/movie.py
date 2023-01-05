@@ -10,5 +10,10 @@ model = Model(
         'release'
     ],
     query_fields={},
-    mutation_fields={}
+    mutation_fields={
+        'title': 'video title',
+        'format': 'video format [DVD|Blu-Ray|MP4]',
+        'director': 'who made it',
+        'release': 'when did they make it'
+    }
 )

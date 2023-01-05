@@ -2,7 +2,6 @@ from flask import request
 from app import api, hardware
 from flask_restx import Resource
 from app.models.hardware import model
-from app.routes.api import category_get
 
 
 @hardware.route('/')
@@ -15,19 +14,22 @@ class Hardware(Resource):
             return model.query(args)
         return model.query()
 
+
+@hardware.route('/<hw_type>')
+class HardwareType(Resource):
+    @api.response(200, 'returns a list of hardware of a specific type')
+    def get(self, hw_type):
+        data = model.query({"type": hw_type})
+        return data
+
     @api.doc(params=model.mutation_fields)
-    def post(self):
+    def post(self, hw_type):
         args = request.args.to_dict()
-
-        if model.validate(args):
-            _, record = model.add(args)
-            return record
-
-        else:
-            return dict()
+        args.setdefault('type', hw_type)
+        data_hash, data = model.add(args)
+        return {data_hash, data}
 
 
-# TODO: re-introduce deleting
 # @hardware.route('/hardware/<record_id>')
 # class MotherboardsById(Resource):
 #     @api.response(200, 'return details of a specific motherboard')

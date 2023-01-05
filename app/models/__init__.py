@@ -55,7 +55,6 @@ def get_category_display_name(category: str) -> str:
 def get_category_data(category: str) -> (list, list):
     model = categories_module_map.get(category)
     if model:
-        data = list()
         display_fields = model.display_fields
         data = model.query()
         return display_fields, data

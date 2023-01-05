@@ -45,7 +45,7 @@ class Model:
                 filtered_data.append(record)
         return filtered_data
 
-    def query(self, filter_params=None) -> list:
+    def query(self, filter_params: dict = None, include_hash: bool = False) -> list:
         # TODO: maybe a better algorithm for filtering?
         if filter_params:
             filtered_data = self.database.values()
@@ -54,4 +54,7 @@ class Model:
             return filtered_data
 
         else:
-            return list(self.database.values())
+            if include_hash:
+                return list(self.database)
+            else:
+                return list(self.database.values())

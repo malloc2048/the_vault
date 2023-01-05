@@ -2,32 +2,25 @@
 
 {% block content %}
     <div class="container">
+    <form class="form-horizontal-pf-align-left" role="form" method="post" action="/filter/{{ category }}">
         <div class="row">
-            <div class="col-sm-3">
-                <h3>Filter Options:</h3>
-                <form class="form-horizontal-pf-align-left" role="form" method="post" action="/filter/{{ category }}">
-                    {% for filter in filters %}
-                    <div>
-                        <select name="filter_{{ filter }}" class="form-select" aria-label="select example">
-                            <option selected>{{ filter }}</option>
-                            {% for f in filters[filter] %}
-                                <option>{{ f }}</option>
-                            {% endfor %}
-                        </select>
-                    </div>
-                    {% endfor %}
-                    <div>
-                        <button type="submit" onclick="this.form.submit()">Filter {{ category }}</button>
-                    </div>
-                </form>
+            <div class="col-sm-1">
+                <button type="submit" onclick="this.form.submit()">Filter {{ category }}</button>
             </div>
         <div class="col-sm-1"></div>
-            <div class="col-sm-8">
+            <div class="col-sm-10">
                 <table class="table table-hover">
                     <thead>
                         <tr>
-                            {% for attribute in attributes %}
-                                <th>{{ attribute }}</th>
+                            {% for filter in filters %}
+                                <th>
+                                    <select onchange="this.form.submit()" name="filter_{{ filter }}" class="form-select" aria-label="select example">
+                                        <option selected>{{ filter }}</option>
+                                        {% for f in filters[filter] %}
+                                            <option value="{{ f }}">{{ f }}</option>
+                                        {% endfor %}
+                                    </select>
+                                </th>
                             {% endfor %}
                         </tr>
                     </thead>
@@ -43,5 +36,6 @@
                 </table>
             </div>
         </div>
+    </form>
     </div>
 {% endblock %}
