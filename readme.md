@@ -60,3 +60,67 @@ Dockerfile used to build the image containing all needed components to run the V
 
 ### requirements.txt
 Python package requirements file 
+
+## Project Directory and File Structure
+```
+/
+├── app
+│   ├── __init__.py
+│   ├── config
+│   │   ├── __init__.py
+│   │   ├── config.py
+│   │   ├── gunicorn.conf.py
+│   │   ├── my_stuff.sqlit3
+│   │   └── vault.conf.yaml
+│   ├── models
+│   │   ├── __init__.py
+│   │   ├── data_files
+│   │   │   ├── games.jsonl
+│   │   │   ├── hardware.jsonl
+│   │   │   ├── movies.jsonl
+│   │   │   └── operating_systems.jsonl
+│   │   ├── game.py
+│   │   ├── hardware.py
+│   │   ├── model.py
+│   │   ├── movie.py
+│   │   └── software.py
+│   ├── routes
+│   │   ├── __init__.py
+│   │   ├── api
+│   │   │   ├── __init__.py
+│   │   │   ├── categories.py
+│   │   │   ├── games.py
+│   │   │   ├── hardware.py
+│   │   │   ├── movies.py
+│   │   │   └── operating_systems.py
+│   │   └── app
+│   │       ├── __init__.py
+│   │       ├── category.py
+│   │       └── home.py
+│   └── templates
+│       ├── base.html
+│       ├── category.html
+│       └── index.html
+├── docker
+│   ├── Dockerfile
+│   ├── docker-compose-dev.yaml
+│   └── docker-compose-prod.yaml
+├── readme.md
+├── requirements.txt
+└── scripts
+    ├── add_data.py
+    ├── regen_venv.sh
+    └── start.sh
+```
+
+### app directory
+Contains the [source code](app/readme.md) for the Vault application.
+See the [app/readme.md](app/readme.md) for more detail 
+
+### docker directory
+Contains the files to build and run the Vault docker image and container
+See the [docker/readme.md](docker/readme.md) for more detail
+
+### scripts directory
+Contains some helpful scripts used during development
+See the [scripts/readme.md](scripts/readme.md) for more detail
